@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Linux," />
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="努力学习，认真工作">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Spike&#39;s Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="日常操作命令pwd 查看当前所在的工作目录 netstat -nltp 查看网络状态">
+<meta name="keywords" content="Linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux常用命令总结">
+<meta property="og:url" content="http://yoursite.com/2018/02/10/Linux常用命令总结/index.html">
 <meta property="og:site_name" content="Spike&#39;s Blog">
-<meta property="og:description" content="努力学习，认真工作">
+<meta property="og:description" content="日常操作命令pwd 查看当前所在的工作目录 netstat -nltp 查看网络状态">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-10T08:32:46.996Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Spike&#39;s Blog">
-<meta name="twitter:description" content="努力学习，认真工作">
+<meta name="twitter:title" content="Linux常用命令总结">
+<meta name="twitter:description" content="日常操作命令pwd 查看当前所在的工作目录 netstat -nltp 查看网络状态">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/02/10/Linux常用命令总结/"/>
 
 
 
 
 
-  <title>Spike's Blog</title>
+  <title>Linux常用命令总结 | Spike's Blog</title>
   
 
 
@@ -143,8 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -227,9 +228,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -259,9 +260,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/10/Linux常用命令总结/" itemprop="url">Linux常用命令总结</a></h1>
+          <h1 class="post-title" itemprop="name headline">Linux常用命令总结</h1>
         
 
         <div class="post-meta">
@@ -322,17 +321,87 @@
       
 
       
-        
-          <h2 id="日常操作命令"><a href="#日常操作命令" class="headerlink" title="日常操作命令"></a>日常操作命令</h2><p><code>pwd</code> 查看当前所在的工作目录</p>
+        <h2 id="日常操作命令"><a href="#日常操作命令" class="headerlink" title="日常操作命令"></a>日常操作命令</h2><p><code>pwd</code> 查看当前所在的工作目录</p>
 <p><code>netstat -nltp</code> 查看网络状态</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/10/Linux常用命令总结/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+<a id="more"></a>
+<h2 id="文件系统操作"><a href="#文件系统操作" class="headerlink" title="文件系统操作"></a>文件系统操作</h2><p><code>ls /</code> 查看根目录下的子节点（文件夹和文件）信息</p>
+<p><code>ls -l</code> 以详细列表形式显示节点信息，别名为 <code>ll</code> ，加参数 <code>a</code> 显示隐藏文件</p>
+<p><code>cd /</code> 切换目录</p>
+<p><code>mkdir a</code> 创建目录（相对路径） 默认权限755</p>
+<p><code>mkdir /data/a</code> 创建目录（绝对路径）</p>
+<p><code>mkdir -p a/b/c</code> 创建子目录</p>
+<p><code>rm -rf /</code> 强制删除目录/文件</p>
+<p><code>mv a b</code> 修改a文件夹名称为b</p>
+<p><code>touch test.1</code> 创建文件 默认权限644</p>
+<p><code>cp test.1 /app/hadoop</code> 复制文件</p>
+<p><code>cat test.1</code> 查看文件内容（输出到控制台）</p>
+<p><code>tar -cvf app.jar /home/app</code> 打包</p>
+<p><code>tar -xvf app.jar</code> 解包</p>
+<p><code>gzip app.jar</code> 压缩</p>
+<p><code>gzip -d app.jar.gz</code> 解压缩</p>
+<p><code>tar -zcvf /home/app</code> 打包&amp;压缩</p>
+<p><code>tar -zxvf app.tar.gz (-C /目标目录)</code> 解压&amp;解包 </p>
+<h3 id="使用vi编辑文件"><a href="#使用vi编辑文件" class="headerlink" title="使用vi编辑文件"></a>使用vi编辑文件</h3><h4 id="vi用法"><a href="#vi用法" class="headerlink" title="vi用法"></a>vi用法</h4><p><code>vi test.1</code> 进入一般模式</p>
+<p>输入 <code>i</code> 进入编辑模式</p>
+<p>编辑完成按 <code>Esc</code> 键退出编辑模式，回到一般模式</p>
+<p>输入 <code>:</code> 进入底行命令模式，输入 <code>wq</code> ，回车，保存并退出文件（或在一般模式下按 <code>Shift + Z + Z</code> ，也可保存并退出）</p>
+<h4 id="一般模式下的快捷键"><a href="#一般模式下的快捷键" class="headerlink" title="一般模式下的快捷键"></a>一般模式下的快捷键</h4><p><code>a</code> 在光标的后一位开始插入</p>
+<p><code>A</code> 在改行的最后插入</p>
+<p><code>I</code> 在该行的最前面插入</p>
+<p><code>gg</code> 直接跳到文件的首行</p>
+<p><code>G</code> 直接跳到文件的末行</p>
+<p><code>dd</code> 删除行，如果  5dd   ，则一次性删除光标后的5行</p>
+<p><code>yy</code> 复制当前行,  复制多行，则  3yy，则复制当前行附近的3行</p>
+<p><code>p</code> 粘贴</p>
+<p><code>v</code> 进入字符选择模式，选择完成后，按y复制，按p粘贴</p>
+<p><code>Ctrl + V</code> 进入块选择模式，选择完成后，按y复制，按p粘贴</p>
+<p><code>Shift + V</code> 进入行选择模式，选择完成后，按y复制，按p粘贴</p>
+<h2 id="文件权限操作"><a href="#文件权限操作" class="headerlink" title="文件权限操作"></a>文件权限操作</h2><p>r-4 w-2 x-1 User Group Other</p>
+<p><code>chmod 755 test.1</code> 修改权限</p>
+<h2 id="常用软件安装"><a href="#常用软件安装" class="headerlink" title="常用软件安装"></a>常用软件安装</h2><h3 id="安装JDK1-8"><a href="#安装JDK1-8" class="headerlink" title="安装JDK1.8"></a>安装JDK1.8</h3><p>新建目录</p>
+<p><code>mkdir apps</code></p>
+<p>解压安装包</p>
+<p><code>tar -zxvf jdk-8u151-linux-x64.tar.gz -C apps/</code></p>
+<p>修改环境变量</p>
+<p><code>vi /etc/profile</code></p>
+<p>文件最后添加</p>
+<p><code>export JAVA_HOME=/root/apps/jdk1.8.0_151</code></p>
+<p><code>export PATH=$PATH:$JAVA_HOME/bin</code></p>
+<p>重新加载环境变量</p>
+<p><code>source /etc/profile</code></p>
+<h3 id="安装MySQL5-7"><a href="#安装MySQL5-7" class="headerlink" title="安装MySQL5.7"></a>安装MySQL5.7</h3><p>安装wget</p>
+<p><code>yum -y install wget</code></p>
+<p>下载MySQL源</p>
+<p><code>wget https://dev.mysql.com/get/mysql57-community-release-el7-11.noarch.rpm</code></p>
+<p>安装MySQL源</p>
+<p><code>yum -y localinstall mysql57-community-release-el7-11.noarch.rpm</code></p>
+<p>安装MySQL</p>
+<p><code>yum -y install mysql-community-server</code></p>
+<p>启动Mysql服务</p>
+<p><code>systemctl start mysqld</code></p>
+<p>设置开机启动</p>
+<p><code>systemctl enable mysqld</code></p>
+<p><code>systemctl daemon-reload</code></p>
+<p>记录root本地登录临时密码</p>
+<p><code>vi /var/log/mysqld.log</code></p>
+<p>修改密码</p>
+<p><code>mysql -u root -p</code></p>
+<p><code>ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;Spike07@&#39;;</code></p>
+<p>设置允许远程登录</p>
+<p><code>GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;Spike07@&#39; WITH GRANT OPTION;</code></p>
+<p><code>exit;</code></p>
+<p>开放3306端口</p>
+<p><code>firewall-cmd --zone=public --add-port=3306/tcp --permanent</code></p>
+<p><code>firewall-cmd --reload</code></p>
+<p>配置默认编码为utf8</p>
+<p><code>vi /etc/my.cnf</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line">character_set_server=utf8</span><br><span class="line">init_connect='SET NAMES utf8'</span><br></pre></td></tr></table></figure>
+<p>重启MySQL服务</p>
+<p><code>systemctl restart mysqld</code></p>
+<p>查看编码</p>
+<p><code>show variables like &#39;%character%&#39;;</code></p>
+<p>navicat测试连接</p>
+
       
     </div>
     
@@ -347,293 +416,36 @@
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/08/新系统部署博客/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Spike">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-2-9/19220421.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Spike's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/08/新系统部署博客/" itemprop="url">新系统部署博客</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-08T22:09:39+08:00">
-                2018-02-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
           
-            
-          
-
-          
-          
-             <span id="/2018/02/08/新系统部署博客/" class="leancloud_visitors" data-flag-title="新系统部署博客">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
+      
 
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
+      
       
       
 
       
-        
-          <p>最近给电脑升级了内存、SSD，系统也从win8.1换成了win10，想继续写博客时面临着一个问题，需要把原来博客的文件夹迁移到新系统中，迁移成功后可以在新系统中部署。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/08/新系统部署博客/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/08/新系统部署博客/" rel="next" title="新系统部署博客">
+                <i class="fa fa-chevron-left"></i> 新系统部署博客
+              </a>
+            
           </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
 
-    
+          <span class="post-nav-divider"></span>
 
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/20/数据结构复习/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Spike">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-2-9/19220421.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Spike's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/20/数据结构复习/" itemprop="url">数据结构复习</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+          <div class="post-nav-prev post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-20T18:53:10+08:00">
-                2017-09-20
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/09/20/数据结构复习/" class="leancloud_visitors" data-flag-title="数据结构复习">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          <h3 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h3><ul>
-<li>顺序存储结构</li>
-<li>链式存储结构<ul>
-<li><strong>单链表</strong></li>
-<li>静态链表</li>
-<li>循环链表</li>
-<li>双向链表</li>
-</ul>
-</li>
-</ul>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/09/20/数据结构复习/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -643,146 +455,11 @@
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/08/27/Hexo-GitHub搭建个人博客/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Spike">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-2-9/19220421.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Spike's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/27/Hexo-GitHub搭建个人博客/" itemprop="url">Hexo+GitHub搭建个人博客</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-27T11:38:02+08:00">
-                2017-08-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2017/08/27/Hexo-GitHub搭建个人博客/" class="leancloud_visitors" data-flag-title="Hexo+GitHub搭建个人博客">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">阅读次数&#58;</span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>一直以来就想搭建自己的个人博客，一来可以将自己在技术学习路上的收获分享给大家，二来记录提高自己的写作能力。之所以没有选择一些博客平台，是觉得在实际搭建的过程中能体会到动手操作的乐趣。在对比了几种搭建方法后，选定了Hexo+GitHub这种方式。</p>
-<p>Hexo是一个快速、简单并且功能强大的博客框架。使用Hexo的前提是必须有个GitHub账号作为博客的仓库，没有GitHub的同学先<a href="https://github.com/join?source=header" target="_blank" rel="noopener">注册</a>一下。此外，搭建的过程中会涉及到Git、Node.js的一些技术。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/08/27/Hexo-GitHub搭建个人博客/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
 
 
           </div>
@@ -790,6 +467,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -810,8 +491,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -876,6 +566,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#日常操作命令"><span class="nav-number">1.</span> <span class="nav-text">日常操作命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件系统操作"><span class="nav-number">2.</span> <span class="nav-text">文件系统操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用vi编辑文件"><span class="nav-number">2.1.</span> <span class="nav-text">使用vi编辑文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#vi用法"><span class="nav-number">2.1.1.</span> <span class="nav-text">vi用法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#一般模式下的快捷键"><span class="nav-number">2.1.2.</span> <span class="nav-text">一般模式下的快捷键</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件权限操作"><span class="nav-number">3.</span> <span class="nav-text">文件权限操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用软件安装"><span class="nav-number">4.</span> <span class="nav-text">常用软件安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装JDK1-8"><span class="nav-number">4.1.</span> <span class="nav-text">安装JDK1.8</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装MySQL5-7"><span class="nav-number">4.2.</span> <span class="nav-text">安装MySQL5.7</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1009,6 +715,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
