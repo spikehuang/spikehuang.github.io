@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Java 8（又称为 jdk 1.8） 是由 Oracle 公司在2014年发布的 Java 语言开发的一个主要版本，是 Java 5 以来最重要的一次更新。在这个版本中，引入了非常多的新特性，像 Lambda 表达式、Stream API、默认方法、Optional 类、新的日期 API 等等。最近一段时间读了《Java 8实战》这本书，这篇博客主要是对 Lambda 表达式部分做个学习笔记，以">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 8新特性之Lambda表达式">
+<meta property="og:url" content="http://yoursite.com/2018/03/03/Java-8新特性之Lambda表达式/index.html">
+<meta property="og:site_name" content="Spike&#39;s Blog">
+<meta property="og:description" content="Java 8（又称为 jdk 1.8） 是由 Oracle 公司在2014年发布的 Java 语言开发的一个主要版本，是 Java 5 以来最重要的一次更新。在这个版本中，引入了非常多的新特性，像 Lambda 表达式、Stream API、默认方法、Optional 类、新的日期 API 等等。最近一段时间读了《Java 8实战》这本书，这篇博客主要是对 Lambda 表达式部分做个学习笔记，以">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-03T18:00:15.894Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Java 8新特性之Lambda表达式">
+<meta name="twitter:description" content="Java 8（又称为 jdk 1.8） 是由 Oracle 公司在2014年发布的 Java 语言开发的一个主要版本，是 Java 5 以来最重要的一次更新。在这个版本中，引入了非常多的新特性，像 Lambda 表达式、Stream API、默认方法、Optional 类、新的日期 API 等等。最近一段时间读了《Java 8实战》这本书，这篇博客主要是对 Lambda 表达式部分做个学习笔记，以">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/03/Java-8新特性之Lambda表达式/"/>
+
+
+
+
+
+  <title>Java 8新特性之Lambda表达式 | Spike's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Spike's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/03/Java-8新特性之Lambda表达式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Spike">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-2-9/19220421.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Spike's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Java 8新特性之Lambda表达式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-03T20:19:46+08:00">
+                2018-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/03/03/Java-8新特性之Lambda表达式/" class="leancloud_visitors" data-flag-title="Java 8新特性之Lambda表达式">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Java 8（又称为 jdk 1.8） 是由 Oracle 公司在2014年发布的 Java 语言开发的一个主要版本，是 Java 5 以来最重要的一次更新。在这个版本中，引入了非常多的新特性，像 Lambda 表达式、Stream API、默认方法、Optional 类、新的日期 API 等等。最近一段时间读了《Java 8实战》这本书，这篇博客主要是对 Lambda 表达式部分做个学习笔记，以便加深理解。</p>
+<a id="more"></a>
+<h2 id="行为参数化"><a href="#行为参数化" class="headerlink" title="行为参数化"></a>行为参数化</h2><p>在开始介绍 Lambda 表达式之前，我们必须先了解<strong>行为参数化</strong>的概念。</p>
+<blockquote>
+<p>行为参数化就是可以帮助你处理频繁变更的需求的一种软件开发模式。一言以蔽之，它意味<br>着拿出一个代码块，把它准备好却不去执行它。这个代码块以后可以被你程序的其他部分调用，<br>这意味着你可以推迟这块代码的执行。例如，你可以将代码块作为参数传递给另一个方法，稍后<br>再去执行它。这样，这个方法的行为就基于那块代码被参数化了。</p>
+</blockquote>
+<p>在面对不同的需求时，行为参数化这一模式可以降低工作量，并且易于长期维护。举个例子，库存中存放若干苹果，现在有如下需求：1. 筛选重量大于150g的苹果；2. 筛选绿苹果；3. 筛选红色且重量大于150g的苹果……利用行为参数化的思想，可以对选择标准建模，根据 Apple 的一些属性返回一个 boolean 值，称之为谓词（Predicate，即返回 boolean 值的函数）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ApplePredicate</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">test</span> <span class="params">(Apple apple)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在就可以根据不同的需求编写不同的实现类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppleHeavyWeightPredicate</span> <span class="keyword">implements</span> <span class="title">ApplePredicate</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">test</span><span class="params">(Apple apple)</span> </span>&#123;</span><br><span class="line">  	<span class="keyword">return</span> apple.getWeight() &gt; <span class="number">150</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppleGreenColorPredicate</span> <span class="keyword">implements</span> <span class="title">ApplePredicate</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">test</span><span class="params">(Apple apple)</span> </span>&#123;</span><br><span class="line">  	<span class="keyword">return</span> <span class="string">"green"</span>.equals(apple.getColor());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AppleRedAndHeavyPredicate</span> <span class="keyword">implements</span> <span class="title">ApplePredicate</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">test</span><span class="params">(Apple apple)</span> </span>&#123;</span><br><span class="line">  	<span class="keyword">return</span> <span class="string">"red"</span>.equals(apple.getColor()) &amp;&amp; apple.getWeight() &gt; <span class="number">150</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里和设计模式中的”策略设计模式“相关，算法族就是 ApplePredicate ，不同的策略就是 AppleHeavyWeightPredicate 和 AppleGreenColorPredicate。</p>
+<p>这样，把 ApplePredicate 作为参数传给 filterApples 方法，就可以实现<strong>行为参数化</strong>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;Apple&gt; <span class="title">filterApples</span><span class="params">(List&lt;Apple&gt; inventory, ApplePredicate p)</span> </span>&#123;</span><br><span class="line">  List&lt;Apple&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">  <span class="keyword">for</span> (Apple apple: inventory) &#123;</span><br><span class="line">    <span class="keyword">if</span> (p.test(apple)) &#123;</span><br><span class="line">      result.add(apple);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面代码实现的过程中，我们不得不使用大量模板代码，其实真正关心的只是实现类中 test 方法中 return 后面的逻辑。为了减少这些不必要的麻烦，我们先通过<strong>匿名类</strong>实现。匿名类允许同时声明并实例化一个类（即随用随建）。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Apple&gt; redApples = filterApples(inventory, <span class="keyword">new</span> ApplePredicate() &#123;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">test</span><span class="params">(Apple apple)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"red"</span>.equals(apple.getColor());</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>通过<strong>匿名类</strong>实现的方式仍然存在模板代码，我们关心的仍然时 return 后的代码，现在我们终于可以引入 Lambda 表达式了，看看 Lambda 表达式是怎么让代码更干净的。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Apple&gt; result = </span><br><span class="line">  filterApples(inventory, (Apple apple) -&gt; <span class="string">"red"</span>.equals(apple.getColor()));</span><br></pre></td></tr></table></figure>
+<h2 id="Lambda-表达式"><a href="#Lambda-表达式" class="headerlink" title="Lambda 表达式"></a>Lambda 表达式</h2><h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><p> (parameters) -&gt; expression </p>
+<p>或</p>
+<p>(parameters) -&gt; { statements; }</p>
+<h3 id="函数式接口"><a href="#函数式接口" class="headerlink" title="函数式接口"></a>函数式接口</h3><p>只定义一个抽象方法的接口即<strong>函数式接口</strong>，例如之前使用的 ApplePredicate 接口。Lambda表达式允许你直接以内联的形式为函数式接口的抽象方法提供实现，并把整个表达式作为函数式接口的实例。例如，java.lang.Runnable 提供了函数式接口 Runnable：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以通过 Lambda 表达式实例化 Runnable：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Runnable r1 = () -&gt; System.out.println(<span class="string">"Hello World"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="函数描述符"><a href="#函数描述符" class="headerlink" title="函数描述符"></a>函数描述符</h3><p>函数式接口的抽象方法的签名叫做<strong>函数描述符</strong>（即 Lambda 表达式的签名）。例如 <code>() -&gt; void</code> 代表<br>了参数列表为空，且返回 void 的函数，<code>(Apple, Apple) -&gt; int</code> 代表接受两个 Apple 作为参数且返回 int 的函数。</p>
+<h4 id="常用函数式接口及对应函数描述符"><a href="#常用函数式接口及对应函数描述符" class="headerlink" title="常用函数式接口及对应函数描述符"></a>常用函数式接口及对应函数描述符</h4><table>
+<thead>
+<tr>
+<th style="text-align:center"><strong>函数式接口</strong></th>
+<th style="text-align:center"><strong>函数描述符</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Predicate<t></t></td>
+<td style="text-align:center">T -&gt; boolean</td>
+</tr>
+<tr>
+<td style="text-align:center">Consumer<t></t></td>
+<td style="text-align:center">T -&gt; void</td>
+</tr>
+<tr>
+<td style="text-align:center">Function<t, r=""></t,></td>
+<td style="text-align:center">T -&gt; R</td>
+</tr>
+<tr>
+<td style="text-align:center">Supplier<t></t></td>
+<td style="text-align:center">() -&gt; T</td>
+</tr>
+</tbody>
+</table>
+<h5 id="Predicate"><a href="#Predicate" class="headerlink" title="Predicate"></a>Predicate</h5><p>java.util.function.Predicate<t> 接口定义了一个名叫 test 的抽象方法，它接受泛型 T 对象，并返回一个 boolean 。</t></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Predicate</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">boolean</span> <span class="title">test</span><span class="params">(T t)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Consumer"><a href="#Consumer" class="headerlink" title="Consumer"></a>Consumer</h5><p>java.util.function.Consumer<t> 定义了一个名叫 accept 的抽象方法，它接受泛型 T 的对象，没有返回（ void ）。</t></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Consumer</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">accept</span><span class="params">(T t)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h5><p>java.util.function.Function<t, r=""> 接口定义了一个叫作 apply 的方法，它接受一个泛型 T 的对象，并返回一个泛型 R 的对象。</t,></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FunctionalInterface</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Function</span>&lt;<span class="title">T</span>, <span class="title">R</span>&gt; </span>&#123;</span><br><span class="line">  <span class="function">R <span class="title">apply</span><span class="params">(T t)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="类型检查"><a href="#类型检查" class="headerlink" title="类型检查"></a>类型检查</h3><p>在上下文中 Lambda 表达式需要的类型称为<strong>目标类型</strong>。在<code>filter(inventory, (Apple a) -&gt; a.getWeight() &gt; 150);</code>Lambda 表达式中，目标类型是<code>Predicate&lt;Apple&gt;</code> 。类型检查就是判断目标类型接口的签名是否兼容 Lambda 的签名。只要两者的抽象方法签名兼容，同一个 Lambda 表达式就可以与不同的函数式接口联系起来。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Callable&lt;Integer&gt; c = () -&gt; <span class="number">42</span>;</span><br><span class="line">PrivilegedAction&lt;Integer&gt; p = () -&gt; <span class="number">42</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="类型推断"><a href="#类型推断" class="headerlink" title="类型推断"></a>类型推断</h3><p>Java 编译器会从上下文（目标类型）推断出用什么函数式接口来配合 Lambda 表达式，这意味着它也可以推断出适合 Lambda 的签名，因为函数描述符可以通过目标类型来得到。这样就可以在Lambda语法中省去标注参数类型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Apple&gt; greenApples =</span><br><span class="line">  filter(inventory, a -&gt; <span class="string">"green"</span>.equals(a.getColor()));</span><br></pre></td></tr></table></figure>
+<h2 id="方法引用"><a href="#方法引用" class="headerlink" title="方法引用"></a>方法引用</h2><p>方法引用就是让你根据已有的方法实现来创建 Lambda 表达式。当需要使用方法引用时，目标引用放在分隔符 :: 前，方法的名称放在后面，例如<code>Apple::getWeight</code> 就是引用了 Apple 类中定义的方法 getWeight （不使用方法引用的写法为<code>a -&gt; a.getWeight()</code>）。下表举了 Lambda 及其等效方法引用的几个例子：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Lambda</th>
+<th style="text-align:center">等效的方法引用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">(Apple a) -&gt; a.getWeight()</td>
+<td style="text-align:center">Apple::getWeight</td>
+</tr>
+<tr>
+<td style="text-align:center">() -&gt; Thread.currentThread().dumpStack()</td>
+<td style="text-align:center">Thread.currentThread()::dumpStack</td>
+</tr>
+<tr>
+<td style="text-align:center">(str, i) -&gt; str.substring(i)</td>
+<td style="text-align:center">String::substring</td>
+</tr>
+<tr>
+<td style="text-align:center">(String s) -&gt; System.out.println(s)</td>
+<td style="text-align:center">System.out::println</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Lambda与方法引用实例"><a href="#Lambda与方法引用实例" class="headerlink" title="Lambda与方法引用实例"></a>Lambda与方法引用实例</h2><p>需求：根据重量对 Apple 列表排序。</p>
+<p>Java 8 的 API 提供了 List 可用的 sort 方法，其签名是 <code>void sort(Comparator&lt;? super E&gt; c)</code>，它需要一个 Comparator 对象来比较两个 Apple。 Comparator 代表了函数描述符 <code>(T, T) -&gt; int</code>。Lambda 表达式为</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inventory.sort((a1, a2) -&gt; a1.getWeight().compareTo(a2.getWeight()));</span><br></pre></td></tr></table></figure>
+<p> Comparator 具有一个叫作 comparing 的静态辅助方法，它可以接受一个 Function 来提取 Comparable 键值，并生成一个 Comparator 对象。通过引入 comparing 继续简化代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.util.Comparator.comparing;</span><br><span class="line"></span><br><span class="line">inventory.sort(comparing((a) -&gt; a.getWeight()));</span><br></pre></td></tr></table></figure>
+<p>使用方法引用，完成最终解决方案。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inventory.sort(comparing(Apple::getWeight));</span><br></pre></td></tr></table></figure>
+<h2 id="复合Lambda表达式"><a href="#复合Lambda表达式" class="headerlink" title="复合Lambda表达式"></a>复合Lambda表达式</h2><p>在实践中，可以把多个简单的Lambda复合成复杂的表达式。比如，你可以让两个谓词之间做一个 or 操作，组合成一个更大的谓词。</p>
+<h3 id="比较器复合"><a href="#比较器复合" class="headerlink" title="比较器复合"></a>比较器复合</h3><h4 id="逆序"><a href="#逆序" class="headerlink" title="逆序"></a>逆序</h4><p>按重量递减排序。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inventory.sort(comparing(Apple::getWeight).reversed());</span><br></pre></td></tr></table></figure>
+<h4 id="比较器链"><a href="#比较器链" class="headerlink" title="比较器链"></a>比较器链</h4><p>两个苹果一样重时，按国家排序。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">inventory.sort(comparing(Apple::getWeight)</span><br><span class="line">  .reversed()</span><br><span class="line">  .thenComparing(Apple::getCountry));</span><br></pre></td></tr></table></figure>
+<h4 id="谓词复合"><a href="#谓词复合" class="headerlink" title="谓词复合"></a>谓词复合</h4><p>谓词接口包括三个方法： negate 、 and 和 or 。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">redApple.negate(); <span class="comment">// 非红苹果</span></span><br><span class="line">redApple.and(a -&gt; a.getWeight() &gt; <span class="number">150</span>)</span><br><span class="line">  .or(a -&gt; <span class="string">"green"</span>.equals(a.getColor()));</span><br></pre></td></tr></table></figure>
+<h4 id="函数复合"><a href="#函数复合" class="headerlink" title="函数复合"></a>函数复合</h4><p>Function 接口提供了两个方法：addThen 和 compose。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Function&lt;Integer, Integer&gt; f = x -&gt; x + <span class="number">1</span>;</span><br><span class="line">Function&lt;Integer, Integer&gt; g = x -&gt; x * <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">Function&lt;Integer, Integer&gt; h1 = f.andThen(g); <span class="comment">// 相当于数学中的 g(f(x))</span></span><br><span class="line">Function&lt;Integer, Integer&gt; h2 = f.compose(g); <span class="comment">// 相当于数学中的 f(g(x))</span></span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>Lambda 表达式可以理解为一种匿名函数：它没有名称，但有参数列表、函数主体、返回类型，可能还有一个可以抛出的异常的列表。</li>
+<li>Lambda 表达式可以简洁地传递代码。</li>
+<li>只有在接受函数式接口的地方才可以使用 Lambda 表达式。</li>
+<li>Lambda 表达式所需要代表的类型称为目标类型。</li>
+<li>方法引用可以重复使用现有的方法实现并直接传递它们。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/10/Linux常用命令总结/" rel="next" title="Linux常用命令总结">
+                <i class="fa fa-chevron-left"></i> Linux常用命令总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-2-9/19220421.jpg"
+                alt="Spike" />
+            
+              <p class="site-author-name" itemprop="name">Spike</p>
+              <p class="site-description motion-element" itemprop="description">努力学习，认真工作</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/spikehuang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#行为参数化"><span class="nav-number">1.</span> <span class="nav-text">行为参数化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lambda-表达式"><span class="nav-number">2.</span> <span class="nav-text">Lambda 表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本语法"><span class="nav-number">2.1.</span> <span class="nav-text">基本语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数式接口"><span class="nav-number">2.2.</span> <span class="nav-text">函数式接口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数描述符"><span class="nav-number">2.3.</span> <span class="nav-text">函数描述符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#常用函数式接口及对应函数描述符"><span class="nav-number">2.3.1.</span> <span class="nav-text">常用函数式接口及对应函数描述符</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Predicate"><span class="nav-number">2.3.1.1.</span> <span class="nav-text">Predicate</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Consumer"><span class="nav-number">2.3.1.2.</span> <span class="nav-text">Consumer</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Function"><span class="nav-number">2.3.1.3.</span> <span class="nav-text">Function</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型检查"><span class="nav-number">2.4.</span> <span class="nav-text">类型检查</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类型推断"><span class="nav-number">2.5.</span> <span class="nav-text">类型推断</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法引用"><span class="nav-number">3.</span> <span class="nav-text">方法引用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lambda与方法引用实例"><span class="nav-number">4.</span> <span class="nav-text">Lambda与方法引用实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#复合Lambda表达式"><span class="nav-number">5.</span> <span class="nav-text">复合Lambda表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#比较器复合"><span class="nav-number">5.1.</span> <span class="nav-text">比较器复合</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#逆序"><span class="nav-number">5.1.1.</span> <span class="nav-text">逆序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#比较器链"><span class="nav-number">5.1.2.</span> <span class="nav-text">比较器链</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#谓词复合"><span class="nav-number">5.1.3.</span> <span class="nav-text">谓词复合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#函数复合"><span class="nav-number">5.1.4.</span> <span class="nav-text">函数复合</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SpikeHuang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("A68nppAjkHL3i2q8p9glh3sv-gzGzoHsz", "rhQbxLqgCEgcnJTFQQGYmdjt");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
