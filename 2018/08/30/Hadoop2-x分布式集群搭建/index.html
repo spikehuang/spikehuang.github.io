@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-8-30/39485281.jpg">
 <meta property="og:image" content="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-8-30/99434000.jpg">
 <meta property="og:image" content="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-8-30/23648884.jpg">
-<meta property="og:updated_time" content="2018-08-30T15:59:30.858Z">
+<meta property="og:updated_time" content="2018-09-06T16:20:52.131Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop2.x分布式集群搭建">
 <meta name="twitter:description" content="准备工作">
@@ -409,7 +409,7 @@
 <p><code>sbin/hadoop-daemon.sh start namenode</code></p>
 <h3 id="切换node1为active"><a href="#切换node1为active" class="headerlink" title="切换node1为active"></a>切换node1为active</h3><p>经过以上步骤，node1、node2均处于standby，这里我们还没有配置ZooKeeper，Hadoop集群不能自动选举出主节点，需要手动将节点切换至active状态</p>
 <p><code>bin/hdfs haadmin -ns hadoop-cluster1 -transitionToActive nn1</code></p>
-<p>这时，访问<a href="http://192.168.1.141:50070、http://192.168.1.142:50070返回以下页面，说明node1、node2启动成功" target="_blank" rel="noopener">http://192.168.1.141:50070、http://192.168.1.142:50070返回以下页面，说明node1、node2启动成功</a></p>
+<p>这时，访问<code>http://192.168.1.141:50070</code>、<code>http://192.168.1.142:50070</code>返回以下页面，说明node1、node2启动成功</p>
 <p><img src="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-8-30/49407404.jpg" alt=""></p>
 <p><img src="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-8-30/39485281.jpg" alt=""></p>
 <h2 id="启动node3、node4"><a href="#启动node3、node4" class="headerlink" title="启动node3、node4"></a>启动node3、node4</h2><h3 id="启动NameNode-1"><a href="#启动NameNode-1" class="headerlink" title="启动NameNode"></a>启动NameNode</h3><p>在node3上格式化NameNode</p>
