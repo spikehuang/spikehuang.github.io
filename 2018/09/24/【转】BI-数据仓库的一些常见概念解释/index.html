@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="转载自BI/数据仓库/数据分析 基础入门：一些常见概念解释  Preface：本文将会讲述 BI/DW/DA 领域的一些常见概念，如：事实表、维度表、建模、多维分析、cube 等，但不涉及具体实例分析。 维（Dimension）维是用于从不同角度描述事物特征的，一般维都会有多层（Level：级别），每个Level都会包含一些共有的或特有的属性（Attribute），可以用下图来展示下维的结构和组">
+<meta name="description" content="转载自BI/数据仓库/数据分析 基础入门：一些常见概念解释  Preface：本文将会讲述 BI/DW/DA 领域的一些常见概念，如：事实表、维度表、建模、多维分析、cube 等，但不涉及具体实例分析。">
 <meta name="keywords" content="BI,数据仓库">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【转】BI&#x2F;数据仓库的一些常见概念解释">
 <meta property="og:url" content="http://spike7.top/2018/09/24/【转】BI-数据仓库的一些常见概念解释/index.html">
 <meta property="og:site_name" content="Spike&#39;s Blog">
-<meta property="og:description" content="转载自BI/数据仓库/数据分析 基础入门：一些常见概念解释  Preface：本文将会讲述 BI/DW/DA 领域的一些常见概念，如：事实表、维度表、建模、多维分析、cube 等，但不涉及具体实例分析。 维（Dimension）维是用于从不同角度描述事物特征的，一般维都会有多层（Level：级别），每个Level都会包含一些共有的或特有的属性（Attribute），可以用下图来展示下维的结构和组">
+<meta property="og:description" content="转载自BI/数据仓库/数据分析 基础入门：一些常见概念解释  Preface：本文将会讲述 BI/DW/DA 领域的一些常见概念，如：事实表、维度表、建模、多维分析、cube 等，但不涉及具体实例分析。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-9-24/5654955.jpg">
 <meta property="og:image" content="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-9-24/82038334.jpg">
@@ -94,10 +94,10 @@
 <meta property="og:image" content="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-9-24/95674481.jpg">
 <meta property="og:image" content="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-9-24/46573238.jpg">
 <meta property="og:image" content="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-9-24/60148285.jpg">
-<meta property="og:updated_time" content="2018-09-24T15:14:35.936Z">
+<meta property="og:updated_time" content="2018-09-24T15:16:40.313Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【转】BI&#x2F;数据仓库的一些常见概念解释">
-<meta name="twitter:description" content="转载自BI/数据仓库/数据分析 基础入门：一些常见概念解释  Preface：本文将会讲述 BI/DW/DA 领域的一些常见概念，如：事实表、维度表、建模、多维分析、cube 等，但不涉及具体实例分析。 维（Dimension）维是用于从不同角度描述事物特征的，一般维都会有多层（Level：级别），每个Level都会包含一些共有的或特有的属性（Attribute），可以用下图来展示下维的结构和组">
+<meta name="twitter:description" content="转载自BI/数据仓库/数据分析 基础入门：一些常见概念解释  Preface：本文将会讲述 BI/DW/DA 领域的一些常见概念，如：事实表、维度表、建模、多维分析、cube 等，但不涉及具体实例分析。">
 <meta name="twitter:image" content="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-9-24/5654955.jpg">
 
 
@@ -333,6 +333,7 @@
 <p>转载自<a href="https://my.oschina.net/leejun2005/blog/188770" target="_blank" rel="noopener">BI/数据仓库/数据分析 基础入门：一些常见概念解释</a></p>
 </blockquote>
 <p>Preface：本文将会讲述 BI/DW/DA 领域的一些常见概念，如：事实表、维度表、建模、多维分析、cube 等，但不涉及具体实例分析。</p>
+<a id="more"></a>
 <h1 id="维（Dimension）"><a href="#维（Dimension）" class="headerlink" title="维（Dimension）"></a>维（Dimension）</h1><p>维是用于从不同角度描述事物特征的，一般维都会有多层（Level：级别），每个Level都会包含一些共有的或特有的属性（Attribute），可以用下图来展示下维的结构和组成：</p>
 <p><img src="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-9-24/5654955.jpg" alt=""></p>
 <p>以时间维为例，时间维一般会包含年、季、月、日这几个Level，每个Level一般都会有ID、NAME、DESCRIPTION这几个公共属性，这几个公共属性不仅适用于时间维，也同样表现在其它各种不同类型的维。其中ID一般被视为代理主键（Agent），它只被用于作为唯一性标志，并且是多维模型中关联关系的代理者，在业务层面并不具有任何意义；NAME一般是业务主键（Business），在业务层面限制唯一性，一般作为数据装载（Load）时的关联键；而DESCRIPTION则记录了详细描述信息，在多维展示和分析时我们都会选择使用DESCRIPTION来表述具体含义。</p>
