@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,数据分析," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Numpy通用函数12345678910111213# 转置 Tar1 = np.zeros((2, 5))print(ar1)print(ar1.T)# 更改数组形状 reshape()ar2 = np.arange(16)print(ar2)print(ar2.reshape(4, 4))print(np.reshape(np.arange(9), (3, 3)))# 更改数组形状，如果元素不">
+<meta name="keywords" content="python,数据分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Numpy学习笔记">
+<meta property="og:url" content="http://spike7.top/2019/11/19/Numpy学习笔记/index.html">
+<meta property="og:site_name" content="Spike&#39;s Blog">
+<meta property="og:description" content="Numpy通用函数12345678910111213# 转置 Tar1 = np.zeros((2, 5))print(ar1)print(ar1.T)# 更改数组形状 reshape()ar2 = np.arange(16)print(ar2)print(ar2.reshape(4, 4))print(np.reshape(np.arange(9), (3, 3)))# 更改数组形状，如果元素不">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-11-19T06:20:24.946Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Numpy学习笔记">
+<meta name="twitter:description" content="Numpy通用函数12345678910111213# 转置 Tar1 = np.zeros((2, 5))print(ar1)print(ar1.T)# 更改数组形状 reshape()ar2 = np.arange(16)print(ar2)print(ar2.reshape(4, 4))print(np.reshape(np.arange(9), (3, 3)))# 更改数组形状，如果元素不">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://spike7.top/2019/11/19/Numpy学习笔记/"/>
+
+
+
+
+
+  <title>Numpy学习笔记 | Spike's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Spike's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://spike7.top/2019/11/19/Numpy学习笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Spike">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-2-9/19220421.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Spike's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Numpy学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-19T14:12:19+08:00">
+                2019-11-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/11/19/Numpy学习笔记/" class="leancloud_visitors" data-flag-title="Numpy学习笔记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Numpy通用函数"><a href="#Numpy通用函数" class="headerlink" title="Numpy通用函数"></a>Numpy通用函数</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 转置 T</span></span><br><span class="line">ar1 = np.zeros((<span class="number">2</span>, <span class="number">5</span>))</span><br><span class="line">print(ar1)</span><br><span class="line">print(ar1.T)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更改数组形状 reshape()</span></span><br><span class="line">ar2 = np.arange(<span class="number">16</span>)</span><br><span class="line">print(ar2)</span><br><span class="line">print(ar2.reshape(<span class="number">4</span>, <span class="number">4</span>))</span><br><span class="line">print(np.reshape(np.arange(<span class="number">9</span>), (<span class="number">3</span>, <span class="number">3</span>)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更改数组形状，如果元素不够，默认排序补充 resize()</span></span><br><span class="line">print(np.resize(ar2, (<span class="number">4</span>, <span class="number">5</span>)))</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[[0. 0. 0. 0. 0.]</span><br><span class="line"> [0. 0. 0. 0. 0.]]</span><br><span class="line">[[0. 0.]</span><br><span class="line"> [0. 0.]</span><br><span class="line"> [0. 0.]</span><br><span class="line"> [0. 0.]</span><br><span class="line"> [0. 0.]]</span><br><span class="line">[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15]</span><br><span class="line">[[ 0  1  2  3]</span><br><span class="line"> [ 4  5  6  7]</span><br><span class="line"> [ 8  9 10 11]</span><br><span class="line"> [12 13 14 15]]</span><br><span class="line">[[0 1 2]</span><br><span class="line"> [3 4 5]</span><br><span class="line"> [6 7 8]]</span><br><span class="line">[[ 0  1  2  3  4]</span><br><span class="line"> [ 5  6  7  8  9]</span><br><span class="line"> [10 11 12 13 14]</span><br><span class="line"> [15  0  1  2  3]]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 数组类型转换</span></span><br><span class="line">ar4 = np.arange(<span class="number">10</span>, dtype = float)</span><br><span class="line">print(ar4, ar4.dtype)</span><br><span class="line">ar5 = ar4.astype(np.int64)</span><br><span class="line">print(ar5, ar5.dtype)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[0. 1. 2. 3. 4. 5. 6. 7. 8. 9.] float64</span><br><span class="line">[0 1 2 3 4 5 6 7 8 9] int64</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 数组堆叠</span></span><br><span class="line">a = np.arange(<span class="number">5</span>)</span><br><span class="line">b = np.arange(<span class="number">5</span>, <span class="number">10</span>)</span><br><span class="line">print(a)</span><br><span class="line">print(b)</span><br><span class="line">print(np.hstack((a, b))) <span class="comment"># 横向堆叠</span></span><br><span class="line">print(np.vstack((a, b))) <span class="comment"># 纵向堆叠</span></span><br><span class="line"></span><br><span class="line">print(np.stack((a, b), axis = <span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[0 1 2 3 4]</span><br><span class="line">[5 6 7 8 9]</span><br><span class="line">[0 1 2 3 4 5 6 7 8 9]</span><br><span class="line">[[0 1 2 3 4]</span><br><span class="line"> [5 6 7 8 9]]</span><br><span class="line">[[0 5]</span><br><span class="line"> [1 6]</span><br><span class="line"> [2 7]</span><br><span class="line"> [3 8]</span><br><span class="line"> [4 9]]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 数组拆分</span></span><br><span class="line">ar = np.arange(<span class="number">16</span>).reshape(<span class="number">4</span>, <span class="number">4</span>)</span><br><span class="line">print(ar)</span><br><span class="line">print(np.hsplit(ar, <span class="number">2</span>)[<span class="number">0</span>])</span><br><span class="line">print(np.vsplit(ar, <span class="number">2</span>))</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[[ 0  1  2  3]</span><br><span class="line"> [ 4  5  6  7]</span><br><span class="line"> [ 8  9 10 11]</span><br><span class="line"> [12 13 14 15]]</span><br><span class="line">[[ 0  1]</span><br><span class="line"> [ 4  5]</span><br><span class="line"> [ 8  9]</span><br><span class="line"> [12 13]]</span><br><span class="line">[array([[0, 1, 2, 3],</span><br><span class="line">       [4, 5, 6, 7]]), array([[ 8,  9, 10, 11],</span><br><span class="line">       [12, 13, 14, 15]])]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 计算相关函数</span></span><br><span class="line">ar = np.arange(<span class="number">16</span>).reshape(<span class="number">4</span>, <span class="number">4</span>)</span><br><span class="line">ar_result = ar * <span class="number">10</span> + <span class="number">100</span></span><br><span class="line">print(ar_result)</span><br><span class="line">print(<span class="string">'result的均值为：'</span> + str(ar_result.mean()))</span><br><span class="line">print(<span class="string">'result求和为：'</span> + str(ar_result.sum()))</span><br><span class="line"></span><br><span class="line">print(<span class="string">'resule的均值为：\n'</span>, ar_result.mean(), <span class="string">'\n-------'</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[[100 110 120 130]</span><br><span class="line"> [140 150 160 170]</span><br><span class="line"> [180 190 200 210]</span><br><span class="line"> [220 230 240 250]]</span><br><span class="line">result的均值为：175.0</span><br><span class="line">result求和为：2800</span><br><span class="line">resule的均值为：</span><br><span class="line"> 175.0 </span><br><span class="line">-------</span><br></pre></td></tr></table></figure>
+<h1 id="Numpy索引及切片"><a href="#Numpy索引及切片" class="headerlink" title="Numpy索引及切片"></a>Numpy索引及切片</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 一维数组类似list</span></span><br><span class="line">ar = np.arange(<span class="number">20</span>)</span><br><span class="line">print(ar)</span><br><span class="line">print(ar[<span class="number">4</span>])</span><br><span class="line">print(ar[:<span class="number">3</span>])</span><br><span class="line">print(ar[::<span class="number">2</span>])</span><br><span class="line">print(<span class="string">'----------'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 二维数组索引</span></span><br><span class="line">ar = np.arange(<span class="number">16</span>).reshape(<span class="number">4</span>, <span class="number">4</span>)</span><br><span class="line">print(ar)</span><br><span class="line">print(<span class="string">'----------'</span>)</span><br><span class="line">print(ar[<span class="number">2</span>])</span><br><span class="line">print(ar[<span class="number">2</span>][<span class="number">2</span>])</span><br><span class="line">print(ar[<span class="number">1</span>, <span class="number">3</span>])</span><br><span class="line">print(ar[<span class="number">0</span>:<span class="number">2</span>, <span class="number">1</span>:<span class="number">3</span>])</span><br><span class="line">print(ar[:<span class="number">2</span>, <span class="number">1</span>:]) <span class="comment"># (0, 2]行，(1, 4]列</span></span><br><span class="line">print(ar[<span class="number">2</span>, <span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19]</span><br><span class="line">4</span><br><span class="line">[0 1 2]</span><br><span class="line">[ 0  2  4  6  8 10 12 14 16 18]</span><br><span class="line">----------</span><br><span class="line">[[ 0  1  2  3]</span><br><span class="line"> [ 4  5  6  7]</span><br><span class="line"> [ 8  9 10 11]</span><br><span class="line"> [12 13 14 15]]</span><br><span class="line">----------</span><br><span class="line">[ 8  9 10 11]</span><br><span class="line">10</span><br><span class="line">7</span><br><span class="line">[[1 2]</span><br><span class="line"> [5 6]]</span><br><span class="line">[[1 2 3]</span><br><span class="line"> [5 6 7]]</span><br><span class="line">9</span><br></pre></td></tr></table></figure>
+<h2 id="布尔索引及切片"><a href="#布尔索引及切片" class="headerlink" title="布尔索引及切片"></a>布尔索引及切片</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ar = np.arange(<span class="number">12</span>).reshape(<span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">print(ar)</span><br><span class="line">print(<span class="string">'--------'</span>)</span><br><span class="line">i = np.array([<span class="keyword">True</span>, <span class="keyword">False</span>, <span class="keyword">True</span>])</span><br><span class="line">j = np.array([<span class="keyword">True</span>, <span class="keyword">True</span>, <span class="keyword">False</span>, <span class="keyword">False</span>])</span><br><span class="line">print(i)</span><br><span class="line">print(j)</span><br><span class="line">print(<span class="string">'--------'</span>)</span><br><span class="line">print(ar[i,<span class="number">1</span>:<span class="number">3</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[[ 0  1  2  3]</span><br><span class="line"> [ 4  5  6  7]</span><br><span class="line"> [ 8  9 10 11]]</span><br><span class="line">--------</span><br><span class="line">[ True False  True]</span><br><span class="line">[ True  True False False]</span><br><span class="line">--------</span><br><span class="line">[[ 1  2]</span><br><span class="line"> [ 9 10]]</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 筛选出数组中元素大于5的元素</span></span><br><span class="line">ar = np.arange(<span class="number">10</span>).reshape(<span class="number">2</span>, <span class="number">5</span>)</span><br><span class="line">print(ar[ar &gt; <span class="number">5</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[6 7 8 9]</span><br></pre></td></tr></table></figure>
+<h1 id="Numpy随机数"><a href="#Numpy随机数" class="headerlink" title="Numpy随机数"></a>Numpy随机数</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">print(np.random.normal(size = (<span class="number">4</span>, <span class="number">4</span>))) <span class="comment"># 标准正态分布</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成[0,1)之间的随机浮点数或N维浮点数组——均匀分布</span></span><br><span class="line">print(np.random.rand())</span><br><span class="line">print(np.random.rand(<span class="number">4</span>))</span><br><span class="line">print(np.random.rand(<span class="number">4</span>, <span class="number">3</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成随机浮点数或N维浮点数组——正态分布</span></span><br><span class="line">data1 = np.random.randn(<span class="number">10</span>)</span><br><span class="line">print(data1)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 随机整数</span></span><br><span class="line">print(np.random.randint(<span class="number">5</span>)) <span class="comment"># [0, 5)之间的随机整数</span></span><br><span class="line">print(np.random.randint(<span class="number">2</span>, <span class="number">10</span>)) <span class="comment"># [2, 10)之间的随机整数</span></span><br><span class="line">print(np.random.randint(<span class="number">5</span>, size = (<span class="number">2</span>, <span class="number">5</span>))) <span class="comment"># 生成shape为(2, 5)的二维数组，数组中元素由[0, 5)之间的随机数组成</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">[[-0.81517561  0.82296767  1.34115058 -1.13931906]</span><br><span class="line"> [ 0.33813453  0.85933539 -1.50615895  1.67766858]</span><br><span class="line"> [-0.16734644 -0.5180036   1.24591563  1.71620985]</span><br><span class="line"> [-0.00779947  0.15868297 -0.67414749 -1.68023456]]</span><br><span class="line">0.8863467249858981</span><br><span class="line">[0.13973502 0.37027422 0.89838567 0.12100924]</span><br><span class="line">[[0.38774972 0.78618059 0.57621716]</span><br><span class="line"> [0.13442809 0.42938114 0.35985066]</span><br><span class="line"> [0.43043914 0.26529544 0.42417028]</span><br><span class="line"> [0.4621957  0.87696595 0.802095  ]]</span><br><span class="line">[-0.56067016  0.09564655 -1.26406871 -0.48072729 -0.63965776 -1.03098875</span><br><span class="line">  0.6507998  -0.07842741  0.19974938  0.29984119]</span><br><span class="line">0</span><br><span class="line">8</span><br><span class="line">[[2 3 1 0 3]</span><br><span class="line"> [0 4 2 1 0]]</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/数据分析/" rel="tag"># 数据分析</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/15/重复执行Hive任务时实现数据幂等/" rel="next" title="重复执行Hive任务时实现数据幂等">
+                <i class="fa fa-chevron-left"></i> 重复执行Hive任务时实现数据幂等
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-2-9/19220421.jpg"
+                alt="Spike" />
+            
+              <p class="site-author-name" itemprop="name">Spike</p>
+              <p class="site-description motion-element" itemprop="description">努力学习，认真工作</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/spikehuang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Numpy通用函数"><span class="nav-number">1.</span> <span class="nav-text">Numpy通用函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Numpy索引及切片"><span class="nav-number">2.</span> <span class="nav-text">Numpy索引及切片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#布尔索引及切片"><span class="nav-number">2.1.</span> <span class="nav-text">布尔索引及切片</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Numpy随机数"><span class="nav-number">3.</span> <span class="nav-text">Numpy随机数</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SpikeHuang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("A68nppAjkHL3i2q8p9glh3sv-gzGzoHsz", "rhQbxLqgCEgcnJTFQQGYmdjt");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
