@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="python,数据分析," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="SeriesSeries是带有标签的一维数组">
+<meta name="keywords" content="python,数据分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Pandas学习笔记">
+<meta property="og:url" content="http://spike7.top/2019/11/20/Pandas学习笔记/index.html">
+<meta property="og:site_name" content="Spike&#39;s Blog">
+<meta property="og:description" content="SeriesSeries是带有标签的一维数组">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-11-30T15:17:54.508Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Pandas学习笔记">
+<meta name="twitter:description" content="SeriesSeries是带有标签的一维数组">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://spike7.top/2019/11/20/Pandas学习笔记/"/>
+
+
+
+
+
+  <title>Pandas学习笔记 | Spike's Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Spike's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://spike7.top/2019/11/20/Pandas学习笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Spike">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-2-9/19220421.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Spike's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Pandas学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-20T08:13:58+08:00">
+                2019-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2019/11/20/Pandas学习笔记/" class="leancloud_visitors" data-flag-title="Pandas学习笔记">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Series"><a href="#Series" class="headerlink" title="Series"></a>Series</h1><p>Series是带有标签的一维数组</p>
+<a id="more"></a>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">ar = np.random.rand(<span class="number">5</span>)</span><br><span class="line">s = pd.Series(ar)</span><br><span class="line">print(ar)</span><br><span class="line">print(s)</span><br><span class="line">print(<span class="string">'-----------'</span>)</span><br><span class="line">print(list(s.index)) <span class="comment"># 查看Series索引，类型为rangeIndex</span></span><br><span class="line">print(s.values) <span class="comment"># 查看Series值，类型是ndarray</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Series相比ndarry，是一个自带索引的数组</span></span><br><span class="line"><span class="comment"># 只看Series的值时，就是一个ndarry</span></span><br><span class="line"><span class="comment"># Series更像一个有顺序的dict</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[0.52877755 0.91574957 0.99843789 0.7141033  0.15457158]</span><br><span class="line">0    0.528778</span><br><span class="line">1    0.915750</span><br><span class="line">2    0.998438</span><br><span class="line">3    0.714103</span><br><span class="line">4    0.154572</span><br><span class="line">dtype: float64</span><br><span class="line">-----------</span><br><span class="line">[0, 1, 2, 3, 4]</span><br><span class="line">[0.52877755 0.91574957 0.99843789 0.7141033  0.15457158]</span><br></pre></td></tr></table></figure>
+<h2 id="Series创建方法"><a href="#Series创建方法" class="headerlink" title="Series创建方法"></a>Series创建方法</h2><h3 id="由字典创建"><a href="#由字典创建" class="headerlink" title="由字典创建"></a>由字典创建</h3><p>key -&gt; index, values -&gt; values</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dic = &#123;<span class="string">'a'</span>:<span class="number">1</span>, <span class="string">'b'</span>:<span class="number">2</span>, <span class="string">'c'</span>:<span class="number">3</span>&#125;</span><br><span class="line">s = pd.Series(dic)</span><br><span class="line">print(s)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a    1</span><br><span class="line">b    2</span><br><span class="line">c    3</span><br><span class="line">dtype: int64</span><br></pre></td></tr></table></figure>
+<h3 id="由一维数组创建"><a href="#由一维数组创建" class="headerlink" title="由一维数组创建"></a>由一维数组创建</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ar = np.random.rand(<span class="number">5</span>)</span><br><span class="line">s = pd.Series(ar, index = list(<span class="string">'abcde'</span>))</span><br><span class="line">print(s)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a    0.589334</span><br><span class="line">b    0.834914</span><br><span class="line">c    0.698349</span><br><span class="line">d    0.500289</span><br><span class="line">e    0.302981</span><br><span class="line">dtype: float64</span><br></pre></td></tr></table></figure>
+<h3 id="由标量创建"><a href="#由标量创建" class="headerlink" title="由标量创建"></a>由标量创建</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s = pd.Series(<span class="number">100</span>, index = list(range(<span class="number">5</span>)))</span><br><span class="line">print(s)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">0    100</span><br><span class="line">1    100</span><br><span class="line">2    100</span><br><span class="line">3    100</span><br><span class="line">4    100</span><br><span class="line">dtype: int64</span><br></pre></td></tr></table></figure>
+<h2 id="Series索引"><a href="#Series索引" class="headerlink" title="Series索引"></a>Series索引</h2><p><code>创建Series允许索引重复，但建议不使用重复索引</code></p>
+<h3 id="下标索引"><a href="#下标索引" class="headerlink" title="下标索引"></a>下标索引</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s = pd.Series(np.random.rand(<span class="number">10</span>))</span><br><span class="line">print(s)</span><br><span class="line">print(s[<span class="number">5</span>])</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">0    0.731757</span><br><span class="line">1    0.248603</span><br><span class="line">2    0.923629</span><br><span class="line">3    0.484398</span><br><span class="line">4    0.270696</span><br><span class="line">5    0.820104</span><br><span class="line">6    0.234267</span><br><span class="line">7    0.156476</span><br><span class="line">8    0.892587</span><br><span class="line">9    0.970638</span><br><span class="line">dtype: float64</span><br><span class="line">0.8201038168796655</span><br></pre></td></tr></table></figure>
+<h3 id="标签索引"><a href="#标签索引" class="headerlink" title="标签索引"></a>标签索引</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">s = pd.Series(np.random.rand(<span class="number">5</span>), index = list(<span class="string">'abcde'</span>))</span><br><span class="line">print(s)</span><br><span class="line">print(s[<span class="string">'a'</span>], type(s[<span class="string">'a'</span>]), s[<span class="string">'a'</span>].dtype)</span><br><span class="line"><span class="comment"># 如果选取多个标签的值，用[[]]表示，多标签索引结果是新的数组</span></span><br><span class="line">print(s[[<span class="string">'a'</span>, <span class="string">'c'</span>, <span class="string">'b'</span>]])</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">a    0.770841</span><br><span class="line">b    0.663727</span><br><span class="line">c    0.051882</span><br><span class="line">d    0.361387</span><br><span class="line">e    0.731942</span><br><span class="line">dtype: float64</span><br><span class="line">0.7708414700490239 &lt;class &apos;numpy.float64&apos;&gt; float64</span><br><span class="line">a    0.770841</span><br><span class="line">c    0.051882</span><br><span class="line">b    0.663727</span><br><span class="line">dtype: float64</span><br></pre></td></tr></table></figure>
+<h3 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">s1 = pd.Series(np.random.rand(<span class="number">5</span>))</span><br><span class="line">s2 = pd.Series(np.random.rand(<span class="number">5</span>), index = list(<span class="string">'abcde'</span>))</span><br><span class="line">print(s1)</span><br><span class="line">print(<span class="string">'----------'</span>)</span><br><span class="line">print(s2)</span><br><span class="line">print(<span class="string">'----------'</span>)</span><br><span class="line">print(s1[<span class="number">1</span>: <span class="number">4</span>], s1[<span class="number">4</span>]) <span class="comment"># 通过下标查询元素</span></span><br><span class="line">print(<span class="string">'----------'</span>)</span><br><span class="line">print(s2[<span class="string">'a'</span>: <span class="string">'e'</span>], s2[<span class="string">'c'</span>]) <span class="comment"># 通过标签查询元素</span></span><br><span class="line"><span class="comment"># 注意：通过index做切片是末端包含的</span></span><br><span class="line">print(<span class="string">'----------'</span>)</span><br><span class="line">print(s2[:<span class="number">-1</span>]) <span class="comment"># 下标做切片时，和list的写法一样</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">0    0.179560</span><br><span class="line">1    0.799750</span><br><span class="line">2    0.827082</span><br><span class="line">3    0.502010</span><br><span class="line">4    0.648773</span><br><span class="line">dtype: float64</span><br><span class="line">----------</span><br><span class="line">a    0.852202</span><br><span class="line">b    0.413192</span><br><span class="line">c    0.378436</span><br><span class="line">d    0.158564</span><br><span class="line">e    0.137640</span><br><span class="line">dtype: float64</span><br><span class="line">----------</span><br><span class="line">1    0.799750</span><br><span class="line">2    0.827082</span><br><span class="line">3    0.502010</span><br><span class="line">dtype: float64 0.6487732990604848</span><br><span class="line">----------</span><br><span class="line">a    0.852202</span><br><span class="line">b    0.413192</span><br><span class="line">c    0.378436</span><br><span class="line">d    0.158564</span><br><span class="line">e    0.137640</span><br><span class="line">dtype: float64 0.3784360189996552</span><br><span class="line">----------</span><br><span class="line">a    0.852202</span><br><span class="line">b    0.413192</span><br><span class="line">c    0.378436</span><br><span class="line">d    0.158564</span><br><span class="line">dtype: float64</span><br></pre></td></tr></table></figure>
+<h3 id="布尔型索引"><a href="#布尔型索引" class="headerlink" title="布尔型索引"></a>布尔型索引</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">s = pd.Series(np.random.rand(<span class="number">3</span>) * <span class="number">100</span>)</span><br><span class="line">s[<span class="number">4</span>] = np.NaN</span><br><span class="line">print(s)</span><br><span class="line">bs1 = s &gt; <span class="number">50</span></span><br><span class="line">bs2 = s.isnull()</span><br><span class="line">bs3 = s.notnull()</span><br><span class="line">print(<span class="string">'----------'</span>)</span><br><span class="line">print(bs1)</span><br><span class="line">print(bs2)</span><br><span class="line">print(bs3) <span class="comment"># bs1, bs2, bs3 均为布尔数组</span></span><br><span class="line">print(<span class="string">'----------'</span>)</span><br><span class="line">print(s[bs1])</span><br><span class="line">print(<span class="string">'----------'</span>)</span><br><span class="line">print(s[bs2])</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">0    74.652956</span><br><span class="line">1    16.237614</span><br><span class="line">2    21.852590</span><br><span class="line">4          NaN</span><br><span class="line">dtype: float64</span><br><span class="line">----------</span><br><span class="line">0     True</span><br><span class="line">1    False</span><br><span class="line">2    False</span><br><span class="line">4    False</span><br><span class="line">dtype: bool</span><br><span class="line">0    False</span><br><span class="line">1    False</span><br><span class="line">2    False</span><br><span class="line">4     True</span><br><span class="line">dtype: bool</span><br><span class="line">0     True</span><br><span class="line">1     True</span><br><span class="line">2     True</span><br><span class="line">4    False</span><br><span class="line">dtype: bool</span><br><span class="line">----------</span><br><span class="line">0    74.652956</span><br><span class="line">dtype: float64</span><br><span class="line">----------</span><br><span class="line">4   NaN</span><br><span class="line">dtype: float64</span><br></pre></td></tr></table></figure>
+<h2 id="Series使用技巧"><a href="#Series使用技巧" class="headerlink" title="Series使用技巧"></a>Series使用技巧</h2><h3 id="数据查看"><a href="#数据查看" class="headerlink" title="数据查看"></a>数据查看</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s = pd.Series(np.random.rand(<span class="number">15</span>))</span><br><span class="line">print(s.head(<span class="number">2</span>)) <span class="comment"># 查看前2个元素</span></span><br><span class="line">print(s.tail()) <span class="comment"># 默认查看后5个元素</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">0    0.984448</span><br><span class="line">1    0.112282</span><br><span class="line">dtype: float64</span><br><span class="line">10    0.246466</span><br><span class="line">11    0.537795</span><br><span class="line">12    0.215255</span><br><span class="line">13    0.853739</span><br><span class="line">14    0.948396</span><br><span class="line">dtype: float64</span><br></pre></td></tr></table></figure>
+<h3 id="重置索引"><a href="#重置索引" class="headerlink" title="重置索引"></a>重置索引</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s = pd.Series(np.random.rand(<span class="number">5</span>), index = list(<span class="string">'abcde'</span>))</span><br><span class="line">print(s)</span><br><span class="line">print(<span class="string">'----------'</span>)</span><br><span class="line">s1 = s.reindex(list(<span class="string">'bdcf'</span>)) <span class="comment"># 由于s中没有f标签，所以s1中f标签对应的值为NaN</span></span><br><span class="line">print(s1)</span><br><span class="line">print(<span class="string">'----------'</span>)</span><br><span class="line">s1 = s.reindex(list(<span class="string">'bdcf'</span>), fill_value = <span class="number">0</span>) <span class="comment"># NaN填充为0</span></span><br><span class="line">print(s1)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">a    0.512816</span><br><span class="line">b    0.713892</span><br><span class="line">c    0.580438</span><br><span class="line">d    0.350649</span><br><span class="line">e    0.043981</span><br><span class="line">dtype: float64</span><br><span class="line">----------</span><br><span class="line">b    0.713892</span><br><span class="line">d    0.350649</span><br><span class="line">c    0.580438</span><br><span class="line">f         NaN</span><br><span class="line">dtype: float64</span><br><span class="line">----------</span><br><span class="line">b    0.713892</span><br><span class="line">d    0.350649</span><br><span class="line">c    0.580438</span><br><span class="line">f    0.000000</span><br><span class="line">dtype: float64</span><br></pre></td></tr></table></figure>
+<h3 id="对齐"><a href="#对齐" class="headerlink" title="对齐"></a>对齐</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s1 = pd.Series(np.random.rand(<span class="number">3</span>), index = list(<span class="string">'abc'</span>)) </span><br><span class="line">s2 = pd.Series(np.random.rand(<span class="number">3</span>), index = list(<span class="string">'bcd'</span>))</span><br><span class="line">print(s1 + s2) <span class="comment"># 根据index自动对齐</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a         NaN</span><br><span class="line">b    1.496473</span><br><span class="line">c    1.785278</span><br><span class="line">d         NaN</span><br><span class="line">dtype: float64</span><br></pre></td></tr></table></figure>
+<h3 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">s = pd.Series(np.random.rand(<span class="number">5</span>), index = list(<span class="string">'abcde'</span>)) </span><br><span class="line">s1 = s.drop(<span class="string">'a'</span>) <span class="comment"># inplace = False 默认不改变原数据，生成新数据</span></span><br><span class="line">s2 = s.drop([<span class="string">'b'</span>, <span class="string">'c'</span>])</span><br><span class="line">print(s1)</span><br><span class="line">print(<span class="string">'----------'</span>)</span><br><span class="line">print(s2)</span><br><span class="line">print(<span class="string">'----------'</span>)</span><br><span class="line">print(s)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">b    0.038121</span><br><span class="line">c    0.081574</span><br><span class="line">d    0.210699</span><br><span class="line">e    0.885651</span><br><span class="line">dtype: float64</span><br><span class="line">----------</span><br><span class="line">a    0.760095</span><br><span class="line">d    0.210699</span><br><span class="line">e    0.885651</span><br><span class="line">dtype: float64</span><br><span class="line">----------</span><br><span class="line">a    0.760095</span><br><span class="line">b    0.038121</span><br><span class="line">c    0.081574</span><br><span class="line">d    0.210699</span><br><span class="line">e    0.885651</span><br><span class="line">dtype: float64</span><br></pre></td></tr></table></figure>
+<h3 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">s = pd.Series(np.random.rand(<span class="number">5</span>), index = list(<span class="string">'abcde'</span>)) </span><br><span class="line">s[<span class="string">'g'</span>] = <span class="number">100</span></span><br><span class="line">print(s)</span><br><span class="line"></span><br><span class="line">s1 = s.append(pd.Series(np.random.rand(<span class="number">5</span>))) <span class="comment"># append方法不修改原数组</span></span><br><span class="line">print(<span class="string">'----------'</span>)</span><br><span class="line">print(s1)</span><br><span class="line">print(<span class="string">'----------'</span>)</span><br><span class="line">print(s)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">a      0.716088</span><br><span class="line">b      0.961156</span><br><span class="line">c      0.235286</span><br><span class="line">d      0.353408</span><br><span class="line">e      0.438388</span><br><span class="line">g    100.000000</span><br><span class="line">dtype: float64</span><br><span class="line">----------</span><br><span class="line">a      0.716088</span><br><span class="line">b      0.961156</span><br><span class="line">c      0.235286</span><br><span class="line">d      0.353408</span><br><span class="line">e      0.438388</span><br><span class="line">g    100.000000</span><br><span class="line">0      0.333565</span><br><span class="line">1      0.476750</span><br><span class="line">2      0.934417</span><br><span class="line">3      0.672802</span><br><span class="line">4      0.258667</span><br><span class="line">dtype: float64</span><br><span class="line">----------</span><br><span class="line">a      0.716088</span><br><span class="line">b      0.961156</span><br><span class="line">c      0.235286</span><br><span class="line">d      0.353408</span><br><span class="line">e      0.438388</span><br><span class="line">g    100.000000</span><br><span class="line">dtype: float64</span><br></pre></td></tr></table></figure>
+<h1 id="DataFrame"><a href="#DataFrame" class="headerlink" title="DataFrame"></a>DataFrame</h1><p>带标签的二维数组，由index, columns, values组成</p>
+<h2 id="创建DataFrame"><a href="#创建DataFrame" class="headerlink" title="创建DataFrame"></a>创建DataFrame</h2><h3 id="由数组-list组成的字典创建"><a href="#由数组-list组成的字典创建" class="headerlink" title="由数组/list组成的字典创建"></a>由数组/list组成的字典创建</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># columns为字典的key，index为默认数字标签</span></span><br><span class="line"><span class="comment"># 注意：字典值的长度必须保持一致!</span></span><br><span class="line">data1 = &#123;<span class="string">'a'</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">        <span class="string">'b'</span>: [<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>],</span><br><span class="line">        <span class="string">'c'</span>: [<span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>]&#125;</span><br><span class="line">data2 = &#123;<span class="string">'one'</span>: np.random.rand(<span class="number">3</span>),</span><br><span class="line">        <span class="string">'two'</span>: np.random.rand(<span class="number">3</span>)&#125;</span><br><span class="line">print(data1)</span><br><span class="line">print(data2)</span><br><span class="line">df1 = pd.DataFrame(data1)</span><br><span class="line">df2 = pd.DataFrame(data2)</span><br><span class="line">print(df1)</span><br><span class="line">print(df2)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;&apos;a&apos;: [1, 2, 3], &apos;b&apos;: [3, 4, 5], &apos;c&apos;: [5, 6, 7]&#125;</span><br><span class="line">&#123;&apos;one&apos;: array([0.93167031, 0.34420695, 0.00133042]), &apos;two&apos;: array([0.82810494, 0.36749448, 0.96302049])&#125;</span><br><span class="line">   a  b  c</span><br><span class="line">0  1  3  5</span><br><span class="line">1  2  4  6</span><br><span class="line">2  3  5  7</span><br><span class="line">        one       two</span><br><span class="line">0  0.931670  0.828105</span><br><span class="line">1  0.344207  0.367494</span><br><span class="line">2  0.001330  0.963020</span><br></pre></td></tr></table></figure>
+<h3 id="由Series组成的字典创建"><a href="#由Series组成的字典创建" class="headerlink" title="由Series组成的字典创建"></a>由Series组成的字典创建</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># columns为字典的key，index为Series的标签（如果Series没有标签，则是默认数字标签）</span></span><br><span class="line"><span class="comment"># Series长度可以不一致，生成的DataFrame会出现NaN值</span></span><br><span class="line">data1 = &#123;<span class="string">'one'</span>: pd.Series(np.random.rand(<span class="number">2</span>)),</span><br><span class="line">        <span class="string">'two'</span>: pd.Series(np.random.rand(<span class="number">3</span>))&#125;</span><br><span class="line">data2 = &#123;<span class="string">'one'</span>: pd.Series(np.random.rand(<span class="number">2</span>), index = list(<span class="string">'ab'</span>)),</span><br><span class="line">        <span class="string">'two'</span>: pd.Series(np.random.rand(<span class="number">3</span>), index = list(<span class="string">'abc'</span>))&#125;</span><br><span class="line">print(pd.DataFrame(data1))</span><br><span class="line">print(pd.DataFrame(data2)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">        one       two</span><br><span class="line">0  0.057729  0.847466</span><br><span class="line">1  0.745088  0.345537</span><br><span class="line">2       NaN  0.364266</span><br><span class="line">        one       two</span><br><span class="line">a  0.706614  0.888638</span><br><span class="line">b  0.355033  0.450020</span><br><span class="line">c       NaN  0.764269</span><br></pre></td></tr></table></figure>
+<h3 id="由二维数组直接创建"><a href="#由二维数组直接创建" class="headerlink" title="由二维数组直接创建"></a>由二维数组直接创建</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># index，columns指定长度需要与原数组保持一致</span></span><br><span class="line">ar = np.random.rand(<span class="number">6</span>).reshape(<span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line">df1 = pd.DataFrame(ar) <span class="comment"># 不指定index/column，返回默认数字格式</span></span><br><span class="line">print(df1)</span><br><span class="line">df2 = pd.DataFrame(ar, </span><br><span class="line">                   index = list(<span class="string">'ab'</span>), </span><br><span class="line">                   columns = list(<span class="string">'abc'</span>))</span><br><span class="line">print(df2)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">          0         1         2</span><br><span class="line">0  0.285350  0.170716  0.421252</span><br><span class="line">1  0.411142  0.960920  0.168928</span><br><span class="line">          a         b         c</span><br><span class="line">a  0.285350  0.170716  0.421252</span><br><span class="line">b  0.411142  0.960920  0.168928</span><br></pre></td></tr></table></figure>
+<h3 id="由字典组成的列表创建"><a href="#由字典组成的列表创建" class="headerlink" title="由字典组成的列表创建"></a>由字典组成的列表创建</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 一个字典代表一行数据</span></span><br><span class="line"><span class="comment"># columns为字典key，index不指定则为默认数组标签</span></span><br><span class="line"><span class="comment"># columns/index参数分别重新指定相应列及行标签</span></span><br><span class="line">data = [&#123;<span class="string">'one'</span>: <span class="number">1</span>, <span class="string">'two'</span>: <span class="number">2</span>&#125;, &#123;<span class="string">'one'</span>: <span class="number">5</span>, <span class="string">'two'</span>: <span class="number">10</span>, <span class="string">'three'</span>: <span class="number">20</span>&#125;]</span><br><span class="line">print(data)</span><br><span class="line">df1 = pd.DataFrame(data)</span><br><span class="line">print(df1)</span><br><span class="line">df2 = pd.DataFrame(data, index = list(<span class="string">'ab'</span>))</span><br><span class="line">print(df2)</span><br><span class="line">df3 = pd.DataFrame(data, columns = [<span class="string">'one'</span>, <span class="string">'two'</span>])</span><br><span class="line">print(df3)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[&#123;&apos;one&apos;: 1, &apos;two&apos;: 2&#125;, &#123;&apos;one&apos;: 5, &apos;two&apos;: 10, &apos;three&apos;: 20&#125;]</span><br><span class="line">   one  three  two</span><br><span class="line">0    1    NaN    2</span><br><span class="line">1    5   20.0   10</span><br><span class="line">   one  three  two</span><br><span class="line">a    1    NaN    2</span><br><span class="line">b    5   20.0   10</span><br><span class="line">   one  two</span><br><span class="line">0    1    2</span><br><span class="line">1    5   10</span><br></pre></td></tr></table></figure>
+<h3 id="由字典组成的字典创建"><a href="#由字典组成的字典创建" class="headerlink" title="由字典组成的字典创建"></a>由字典组成的字典创建</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># columns为字典的key，index为子字典的key</span></span><br><span class="line"><span class="comment"># columns参数可以增加或减少列，如果出现新列，值为NaN</span></span><br><span class="line"><span class="comment"># index参数不能改变原有index，如果指向新的标签，值为NaN</span></span><br><span class="line">data = &#123;<span class="string">'Jack'</span>: &#123;<span class="string">'math'</span>: <span class="number">90</span>, <span class="string">'English'</span>: <span class="number">89</span>, <span class="string">'art'</span>: <span class="number">78</span>&#125;,</span><br><span class="line">       <span class="string">'Marry'</span>: &#123;<span class="string">'math'</span>: <span class="number">82</span>, <span class="string">'English'</span>: <span class="number">95</span>, <span class="string">'art'</span>: <span class="number">92</span>&#125;,</span><br><span class="line">       <span class="string">'Tom'</span>: &#123;<span class="string">'math'</span>: <span class="number">78</span>, <span class="string">'English'</span>:<span class="number">67</span>&#125;&#125;</span><br><span class="line">df1 = pd.DataFrame(data)</span><br><span class="line">print(df1)</span><br><span class="line">df2 = pd.DataFrame(data, columns = [<span class="string">'Jack'</span>, <span class="string">'Marry'</span>, <span class="string">'Bob'</span>])</span><br><span class="line">print(df2)</span><br><span class="line">df3 = pd.DataFrame(data, columns = [<span class="string">'Jack'</span>, <span class="string">'Marry'</span>, <span class="string">'Tom'</span>], index = [<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'art'</span>]) <span class="comment"># 只有data和index参数会报错</span></span><br><span class="line">print(df3)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">         Jack  Marry   Tom</span><br><span class="line">English    89     95  67.0</span><br><span class="line">art        78     92   NaN</span><br><span class="line">math       90     82  78.0</span><br><span class="line">         Jack  Marry  Bob</span><br><span class="line">English    89     95  NaN</span><br><span class="line">art        78     92  NaN</span><br><span class="line">math       90     82  NaN</span><br><span class="line">     Jack  Marry  Tom</span><br><span class="line">a     NaN    NaN  NaN</span><br><span class="line">b     NaN    NaN  NaN</span><br><span class="line">art  78.0   92.0  NaN</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python/" rel="tag"># python</a>
+          
+            <a href="/tags/数据分析/" rel="tag"># 数据分析</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/11/19/Numpy学习笔记/" rel="next" title="Numpy学习笔记">
+                <i class="fa fa-chevron-left"></i> Numpy学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/30/spark-sql查询Hive数据/" rel="prev" title="spark-sql查询Hive数据">
+                spark-sql查询Hive数据 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-2-9/19220421.jpg"
+                alt="Spike" />
+            
+              <p class="site-author-name" itemprop="name">Spike</p>
+              <p class="site-description motion-element" itemprop="description">努力学习，认真工作</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/spikehuang" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Series"><span class="nav-number">1.</span> <span class="nav-text">Series</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Series创建方法"><span class="nav-number">1.1.</span> <span class="nav-text">Series创建方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#由字典创建"><span class="nav-number">1.1.1.</span> <span class="nav-text">由字典创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#由一维数组创建"><span class="nav-number">1.1.2.</span> <span class="nav-text">由一维数组创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#由标量创建"><span class="nav-number">1.1.3.</span> <span class="nav-text">由标量创建</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Series索引"><span class="nav-number">1.2.</span> <span class="nav-text">Series索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下标索引"><span class="nav-number">1.2.1.</span> <span class="nav-text">下标索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标签索引"><span class="nav-number">1.2.2.</span> <span class="nav-text">标签索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#切片"><span class="nav-number">1.2.3.</span> <span class="nav-text">切片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#布尔型索引"><span class="nav-number">1.2.4.</span> <span class="nav-text">布尔型索引</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Series使用技巧"><span class="nav-number">1.3.</span> <span class="nav-text">Series使用技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据查看"><span class="nav-number">1.3.1.</span> <span class="nav-text">数据查看</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重置索引"><span class="nav-number">1.3.2.</span> <span class="nav-text">重置索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对齐"><span class="nav-number">1.3.3.</span> <span class="nav-text">对齐</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除"><span class="nav-number">1.3.4.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加"><span class="nav-number">1.3.5.</span> <span class="nav-text">添加</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DataFrame"><span class="nav-number">2.</span> <span class="nav-text">DataFrame</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建DataFrame"><span class="nav-number">2.1.</span> <span class="nav-text">创建DataFrame</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#由数组-list组成的字典创建"><span class="nav-number">2.1.1.</span> <span class="nav-text">由数组/list组成的字典创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#由Series组成的字典创建"><span class="nav-number">2.1.2.</span> <span class="nav-text">由Series组成的字典创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#由二维数组直接创建"><span class="nav-number">2.1.3.</span> <span class="nav-text">由二维数组直接创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#由字典组成的列表创建"><span class="nav-number">2.1.4.</span> <span class="nav-text">由字典组成的列表创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#由字典组成的字典创建"><span class="nav-number">2.1.5.</span> <span class="nav-text">由字典组成的字典创建</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">SpikeHuang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("A68nppAjkHL3i2q8p9glh3sv-gzGzoHsz", "rhQbxLqgCEgcnJTFQQGYmdjt");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

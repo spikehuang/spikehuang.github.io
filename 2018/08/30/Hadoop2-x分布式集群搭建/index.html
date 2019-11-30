@@ -91,7 +91,7 @@
 <meta property="og:image" content="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-8-30/39485281.jpg">
 <meta property="og:image" content="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-8-30/99434000.jpg">
 <meta property="og:image" content="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-8-30/23648884.jpg">
-<meta property="og:updated_time" content="2018-09-06T16:20:52.131Z">
+<meta property="og:updated_time" content="2019-11-21T12:26:51.277Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hadoop2.x分布式集群搭建">
 <meta name="twitter:description" content="准备工作">
@@ -448,7 +448,7 @@
 <p><code>hadoop jar learn-hadoop-1.0-SNAPSHOT.jar io.spike.mapreduce.WordCount /user/spike/input/ /user/spike/output/</code></p>
 <p>执行成功后，可以查看到HDFS上的输出文件</p>
 <p><img src="http://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/18-8-30/23648884.jpg" alt=""></p>
-<h1 id="踩坑"><a href="#踩坑" class="headerlink" title="踩坑"></a>踩坑</h1><p>在格式化NameNode时报错<code>java.net.NoRouteToHostException: 没有到主机的路由</code>，经查看是没有关闭防火墙，可参考<a href="https://blog.csdn.net/lsxy117/article/details/47217161" target="_blank" rel="noopener">hadoop问题之java.net.NoRouteToHostException: 没有到主机的路由</a>。我搭建的各个节点运行在CentOS7上，使用<code>systemctl stop firewalld.service</code>关闭防火墙。</p>
+<h1 id="踩坑"><a href="#踩坑" class="headerlink" title="踩坑"></a>踩坑</h1><p>在格式化NameNode时报错<code>java.net.NoRouteToHostException: 没有到主机的路由</code>，经查看是没有关闭防火墙，可参考<a href="https://blog.csdn.net/lsxy117/article/details/47217161" target="_blank" rel="noopener">hadoop问题之java.net.NoRouteToHostException: 没有到主机的路由</a>。我搭建的各个节点运行在CentOS7上，使用<code>systemctl stop firewalld.service</code>关闭防火墙。（NameNode、DataNode、SeconderyNameNode已经启动但50070端口无反应，也要执行关闭防火墙命令）</p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>搭建Hadoop分布式集群是学习后续大数据知识的必需工作，由于之前已经搭建过单点Hadoop系统，在这次搭建过程中并没有遇到太大的麻烦。</p>
 
       
@@ -573,7 +573,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
