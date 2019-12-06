@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="Numpy通用函数">
+<meta name="description" content="Numpy标准数据类型">
 <meta name="keywords" content="python,数据分析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Numpy学习笔记">
 <meta property="og:url" content="http://spike7.top/2019/11/19/Numpy学习笔记/index.html">
 <meta property="og:site_name" content="Spike&#39;s Blog">
-<meta property="og:description" content="Numpy通用函数">
+<meta property="og:description" content="Numpy标准数据类型">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-30T15:17:45.609Z">
+<meta property="og:image" content="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/19-12-05/20191205085743.png">
+<meta property="og:updated_time" content="2019-12-06T13:41:11.533Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Numpy学习笔记">
-<meta name="twitter:description" content="Numpy通用函数">
+<meta name="twitter:description" content="Numpy标准数据类型">
+<meta name="twitter:image" content="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/19-12-05/20191205085743.png">
 
 
 
@@ -321,8 +323,12 @@
       
 
       
-        <h1 id="Numpy通用函数"><a href="#Numpy通用函数" class="headerlink" title="Numpy通用函数"></a>Numpy通用函数</h1><a id="more"></a>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 转置 T</span></span><br><span class="line">ar1 = np.zeros((<span class="number">2</span>, <span class="number">5</span>))</span><br><span class="line">print(ar1)</span><br><span class="line">print(ar1.T)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更改数组形状 reshape()</span></span><br><span class="line">ar2 = np.arange(<span class="number">16</span>)</span><br><span class="line">print(ar2)</span><br><span class="line">print(ar2.reshape(<span class="number">4</span>, <span class="number">4</span>))</span><br><span class="line">print(np.reshape(np.arange(<span class="number">9</span>), (<span class="number">3</span>, <span class="number">3</span>)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更改数组形状，如果元素不够，默认排序补充 resize()</span></span><br><span class="line">print(np.resize(ar2, (<span class="number">4</span>, <span class="number">5</span>)))</span><br></pre></td></tr></table></figure>
+        <h1 id="Numpy标准数据类型"><a href="#Numpy标准数据类型" class="headerlink" title="Numpy标准数据类型"></a>Numpy标准数据类型</h1><a id="more"></a>
+<p>可以用一个字符串参数（或相关的 NumPy 对象）指定数据类型：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">np.zeros(<span class="number">10</span>, dtype=<span class="string">'int16'</span>)</span><br><span class="line">np.zeros(<span class="number">10</span>, dtype=np.int16)</span><br></pre></td></tr></table></figure>
+<p><img src="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/19-12-05/20191205085743.png" alt="Numpy标准数据类型"></p>
+<p>Numpy数组是类型固定的，如果试图将一个浮点值插入整型数组时，浮点值会被截短成整型。</p>
+<h1 id="Numpy通用函数"><a href="#Numpy通用函数" class="headerlink" title="Numpy通用函数"></a>Numpy通用函数</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 转置 T</span></span><br><span class="line">ar1 = np.zeros((<span class="number">2</span>, <span class="number">5</span>))</span><br><span class="line">print(ar1)</span><br><span class="line">print(ar1.T)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更改数组形状 reshape()</span></span><br><span class="line">ar2 = np.arange(<span class="number">16</span>)</span><br><span class="line">print(ar2)</span><br><span class="line">print(ar2.reshape(<span class="number">4</span>, <span class="number">4</span>))</span><br><span class="line">print(np.reshape(np.arange(<span class="number">9</span>), (<span class="number">3</span>, <span class="number">3</span>)))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更改数组形状，如果元素不够，默认排序补充 resize()</span></span><br><span class="line">print(np.resize(ar2, (<span class="number">4</span>, <span class="number">5</span>)))</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[[0. 0. 0. 0. 0.]</span><br><span class="line"> [0. 0. 0. 0. 0.]]</span><br><span class="line">[[0. 0.]</span><br><span class="line"> [0. 0.]</span><br><span class="line"> [0. 0.]</span><br><span class="line"> [0. 0.]</span><br><span class="line"> [0. 0.]]</span><br><span class="line">[ 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15]</span><br><span class="line">[[ 0  1  2  3]</span><br><span class="line"> [ 4  5  6  7]</span><br><span class="line"> [ 8  9 10 11]</span><br><span class="line"> [12 13 14 15]]</span><br><span class="line">[[0 1 2]</span><br><span class="line"> [3 4 5]</span><br><span class="line"> [6 7 8]]</span><br><span class="line">[[ 0  1  2  3  4]</span><br><span class="line"> [ 5  6  7  8  9]</span><br><span class="line"> [10 11 12 13 14]</span><br><span class="line"> [15  0  1  2  3]]</span><br></pre></td></tr></table></figure>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 数组类型转换</span></span><br><span class="line">ar4 = np.arange(<span class="number">10</span>, dtype = float)</span><br><span class="line">print(ar4, ar4.dtype)</span><br><span class="line">ar5 = ar4.astype(np.int64)</span><br><span class="line">print(ar5, ar5.dtype)</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[0. 1. 2. 3. 4. 5. 6. 7. 8. 9.] float64</span><br><span class="line">[0 1 2 3 4 5 6 7 8 9] int64</span><br></pre></td></tr></table></figure>
@@ -465,7 +471,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -521,7 +527,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Numpy通用函数"><span class="nav-number">1.</span> <span class="nav-text">Numpy通用函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Numpy索引及切片"><span class="nav-number">2.</span> <span class="nav-text">Numpy索引及切片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#布尔索引及切片"><span class="nav-number">2.1.</span> <span class="nav-text">布尔索引及切片</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Numpy随机数"><span class="nav-number">3.</span> <span class="nav-text">Numpy随机数</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Numpy标准数据类型"><span class="nav-number">1.</span> <span class="nav-text">Numpy标准数据类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Numpy通用函数"><span class="nav-number">2.</span> <span class="nav-text">Numpy通用函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Numpy索引及切片"><span class="nav-number">3.</span> <span class="nav-text">Numpy索引及切片</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#布尔索引及切片"><span class="nav-number">3.1.</span> <span class="nav-text">布尔索引及切片</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Numpy随机数"><span class="nav-number">4.</span> <span class="nav-text">Numpy随机数</span></a></li></ol></div>
             
 
           </div>
