@@ -79,23 +79,22 @@
 
 
 
-<meta name="description" content="在执行向数据库中插入数据的任务时，经常会由于一些原因导致任务失败、超时，需要重启任务才能保证入库数据的正确性。这篇文章简介Hive中如何保证任务重复执行时保证数据幂等。">
+<meta name="description" content="json对象">
 <meta name="keywords" content="Hive,数据仓库">
 <meta property="og:type" content="article">
-<meta property="og:title" content="重复执行Hive任务时实现数据幂等">
-<meta property="og:url" content="http://spike7.top/2019/10/15/重复执行Hive任务时实现数据幂等/index.html">
+<meta property="og:title" content="Hive解析json">
+<meta property="og:url" content="http://spike7.top/2019/12/07/Hive解析json/index.html">
 <meta property="og:site_name" content="Spike&#39;s Blog">
-<meta property="og:description" content="在执行向数据库中插入数据的任务时，经常会由于一些原因导致任务失败、超时，需要重启任务才能保证入库数据的正确性。这篇文章简介Hive中如何保证任务重复执行时保证数据幂等。">
+<meta property="og:description" content="json对象">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/19-10-14/blog2019101501.png">
-<meta property="og:image" content="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/19-10-14/blog2019101502.png">
-<meta property="og:image" content="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/19-10-14/blog2019101503.png">
-<meta property="og:image" content="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/19-10-14/blog2019101504.png">
-<meta property="og:updated_time" content="2019-10-15T13:08:13.646Z">
+<meta property="og:image" content="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/2019/20191207202715.png">
+<meta property="og:image" content="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/2019/20191207202841.png">
+<meta property="og:image" content="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/2019/20191207203308.png">
+<meta property="og:updated_time" content="2019-12-07T12:35:38.747Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="重复执行Hive任务时实现数据幂等">
-<meta name="twitter:description" content="在执行向数据库中插入数据的任务时，经常会由于一些原因导致任务失败、超时，需要重启任务才能保证入库数据的正确性。这篇文章简介Hive中如何保证任务重复执行时保证数据幂等。">
-<meta name="twitter:image" content="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/19-10-14/blog2019101501.png">
+<meta name="twitter:title" content="Hive解析json">
+<meta name="twitter:description" content="json对象">
+<meta name="twitter:image" content="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/2019/20191207202715.png">
 
 
 
@@ -125,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://spike7.top/2019/10/15/重复执行Hive任务时实现数据幂等/"/>
+  <link rel="canonical" href="http://spike7.top/2019/12/07/Hive解析json/"/>
 
 
 
 
 
-  <title>重复执行Hive任务时实现数据幂等 | Spike's Blog</title>
+  <title>Hive解析json | Spike's Blog</title>
   
 
 
@@ -248,7 +247,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://spike7.top/2019/10/15/重复执行Hive任务时实现数据幂等/">
+    <link itemprop="mainEntityOfPage" href="http://spike7.top/2019/12/07/Hive解析json/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Spike">
@@ -265,7 +264,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">重复执行Hive任务时实现数据幂等</h1>
+          <h1 class="post-title" itemprop="name headline">Hive解析json</h1>
         
 
         <div class="post-meta">
@@ -277,8 +276,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-15T21:05:33+08:00">
-                2019-10-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-07T20:14:58+08:00">
+                2019-12-07
               </time>
             
 
@@ -295,7 +294,7 @@
 
           
           
-             <span id="/2019/10/15/重复执行Hive任务时实现数据幂等/" class="leancloud_visitors" data-flag-title="重复执行Hive任务时实现数据幂等">
+             <span id="/2019/12/07/Hive解析json/" class="leancloud_visitors" data-flag-title="Hive解析json">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -326,32 +325,21 @@
       
 
       
-        <p>在执行向数据库中插入数据的任务时，经常会由于一些原因导致任务失败、超时，需要重启任务才能保证入库数据的正确性。这篇文章简介Hive中如何保证任务重复执行时保证数据幂等。</p>
-<a id="more"></a>
-<p>在MySQL中，可以建立执行任务日期字段，根据这个字段可以判断该数据任务是在哪天执行的，在每次执行任务前删除这一天的数据即可，如下图所示，stat_date字段为统计日期，如果想重新统计20191014的注册数，先执行<code>delete from test_register_output where stat_date = &#39;20191014&#39;</code>，再重跑数据任务即可。</p>
-<p><img src="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/19-10-14/blog2019101501.png" alt=""></p>
-<p>在Hive中，由于不支持数据的修改与删除，因此想要实现数据幂等，需要采用不同的方法。这里提供两种思路：使用分区或者使用临时表。</p>
-<h1 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h1><p>统计两个业务线（闪电借款、掌e贷）每天的注册量。</p>
-<h1 id="准备Hive表"><a href="#准备Hive表" class="headerlink" title="准备Hive表"></a>准备Hive表</h1><p>按天分区表test.huanghao_register_partition</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">external</span> <span class="keyword">table</span> test.huanghao_register_partition(biz_line <span class="keyword">string</span>, register_num <span class="built_in">bigint</span>) </span><br><span class="line">partitioned <span class="keyword">by</span> (stat_date <span class="keyword">string</span>)</span><br><span class="line"><span class="keyword">stored</span> <span class="keyword">as</span> parquet </span><br><span class="line">location <span class="string">'/tmp/huanghao/hive/test/huanghao_register_partition'</span>;</span><br></pre></td></tr></table></figure>
-<p>按天注册表test.huanghao_register_all</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">external</span> <span class="keyword">table</span> test.huanghao_register_all(stat_date <span class="keyword">string</span>, biz_line <span class="keyword">string</span>, register_num <span class="built_in">bigint</span>) </span><br><span class="line"><span class="keyword">stored</span> <span class="keyword">as</span> parquet </span><br><span class="line">location <span class="string">'/tmp/huanghao/hive/test/huanghao_register_all'</span>;</span><br></pre></td></tr></table></figure>
-<p>按天注册临时表test.huanghao_register_all_tmp</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">external</span> <span class="keyword">table</span> test.huanghao_register_all_tmp(stat_date <span class="keyword">string</span>, biz_line <span class="keyword">string</span>, register_num <span class="built_in">bigint</span>) </span><br><span class="line"><span class="keyword">stored</span> <span class="keyword">as</span> parquet </span><br><span class="line">location <span class="string">'/tmp/huanghao/hive/test/huanghao_register_all_tmp'</span>;</span><br></pre></td></tr></table></figure>
-<p>每天新增注册临时表test.huanghao_register_new_tmp</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">external</span> <span class="keyword">table</span> test.huanghao_register_new_tmp(stat_date <span class="keyword">string</span>, biz_line <span class="keyword">string</span>, register_num <span class="built_in">bigint</span>) </span><br><span class="line"><span class="keyword">stored</span> <span class="keyword">as</span> parquet </span><br><span class="line">location <span class="string">'/tmp/huanghao/hive/test/huanghao_register_new_tmp'</span>;</span><br></pre></td></tr></table></figure>
-<h1 id="准备初始数据"><a href="#准备初始数据" class="headerlink" title="准备初始数据"></a>准备初始数据</h1><p><img src="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/19-10-14/blog2019101502.png" alt=""></p>
-<p><img src="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/19-10-14/blog2019101503.png" alt=""></p>
-<p>生成20191014新增注册数据</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> overwrite <span class="keyword">table</span> test.huanghao_register_new_tmp </span><br><span class="line"><span class="keyword">select</span> <span class="string">'20191014'</span> stat_date, <span class="string">'sdjk'</span> biz_line, <span class="number">9000</span> register_num </span><br><span class="line"><span class="keyword">union</span> all </span><br><span class="line"><span class="keyword">select</span> <span class="string">'20191014'</span> stat_date, <span class="string">'zhed'</span> biz_line, <span class="number">900</span> register_num;</span><br></pre></td></tr></table></figure>
-<h1 id="数据幂等方案"><a href="#数据幂等方案" class="headerlink" title="数据幂等方案"></a>数据幂等方案</h1><h2 id="使用分区"><a href="#使用分区" class="headerlink" title="使用分区"></a>使用分区</h2><p>使用分区的实现方案与MySQL中实现幂等的方式类似，只是把执行任务日期设为Hive表的分区，每次执行任务时覆盖当前的分区数据。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> overwrite <span class="keyword">table</span> test.huanghao_register_partition <span class="keyword">partition</span>(stat_date=<span class="string">'20191014'</span>)</span><br><span class="line"><span class="keyword">select</span> biz_line, register_num <span class="keyword">from</span> test.huanghao_register_new_tmp;</span><br></pre></td></tr></table></figure>
-<h2 id="使用临时表"><a href="#使用临时表" class="headerlink" title="使用临时表"></a>使用临时表</h2><p>除了使用分区表，还可以借助临时表实现数据幂等，SQL如下。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> overwrite <span class="keyword">table</span> test.huanghao_register_all_tmp </span><br><span class="line"><span class="keyword">select</span> stat_date, biz_line, register_num <span class="keyword">from</span> test.huanghao_register_all </span><br><span class="line"><span class="keyword">union</span> all </span><br><span class="line"><span class="keyword">select</span> a.stat_date, a.biz_line, a.register_num </span><br><span class="line"><span class="keyword">from</span> </span><br><span class="line">(<span class="keyword">select</span> stat_date, biz_line, register_num <span class="keyword">from</span> test.huanghao_register_new_tmp) a </span><br><span class="line"><span class="keyword">left</span> <span class="keyword">join</span> </span><br><span class="line">(<span class="keyword">select</span> stat_date, biz_line, register_num <span class="keyword">from</span> test.huanghao_register_all) b </span><br><span class="line"><span class="keyword">on</span> a.stat_date = b.stat_date <span class="keyword">and</span> a.biz_line = b.biz_line </span><br><span class="line"><span class="keyword">where</span> b.stat_date <span class="keyword">is</span> <span class="literal">null</span>;</span><br></pre></td></tr></table></figure>
-<p>这里需要准备两份数据：1.注册表test.huanghao_register_all的历史数据；2.此次任务需要插入的新增注册数据。第一部分数据存在于test.huanghao_register_all，直接查出即可。第二部分数据需要<strong>判断</strong>，用新增注册临时表test.huanghao_register_new_tmp关联注册表test.huanghao_register_all判断注册表中是否存在这一天的数据，如存在这一天的数据，则不插入，不存在则说明是此次任务需要插入的新增注册数据。将两部分数据union all之后插入到临时表test.huanghao_register_all_tmp，最后将此表数据覆盖插入到test.huanghao_register_all。</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> overwrite <span class="keyword">table</span> test.huanghao_register_all </span><br><span class="line"><span class="keyword">select</span> stat_date, biz_line, register_num <span class="keyword">from</span> test.huanghao_register_all_tmp;</span><br></pre></td></tr></table></figure>
-<p><img src="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/19-10-14/blog2019101504.png" alt=""></p>
-<p>后续如有数据导出到MySQL的需要，可借助sqoop export工具。关于sqoop增量导出下一次再具体写吧。</p>
+        <h1 id="json对象"><a href="#json对象" class="headerlink" title="json对象"></a>json对象</h1><a id="more"></a>
+<p>准备数据1207_test.json</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;<span class="attr">"mid"</span>:<span class="string">"ACQ01"</span>,<span class="attr">"path"</span>:<span class="string">"#/info"</span>,<span class="attr">"pageId"</span>:<span class="string">"baseinfo"</span>,<span class="attr">"eleId"</span>:<span class="string">"baseinfo"</span>,<span class="attr">"referId"</span>:<span class="string">"sxessen"</span>,<span class="attr">"btnId"</span>:<span class="string">""</span>,<span class="attr">"ctime"</span>:<span class="number">1552177382468</span>,<span class="attr">"ugid"</span>:<span class="string">"7cc44796-a3f5-424b-98de-0b0328b404f6"</span>,<span class="attr">"tokenId"</span>:<span class="string">"c7432f66-3935-4a7c-915e-c0221a78a645"</span>,<span class="attr">"sessionId"</span>:<span class="string">"0d8083aeebd947658175a54537d908c3"</span>,<span class="attr">"ch_biz"</span>:<span class="string">"sx"</span>,<span class="attr">"appid"</span>:<span class="string">"sxand"</span>,<span class="attr">"zuid"</span>:<span class="string">"eaa2592a67574898b6c6d3a91a24c33b|200987654321"</span>,<span class="attr">"appver"</span>:<span class="string">"1.0"</span>,<span class="attr">"ch"</span>:<span class="string">"mnl"</span>,<span class="attr">"ch_sub"</span>:<span class="string">"2"</span>,<span class="attr">"version"</span>:<span class="string">"1.0"</span>,<span class="attr">"district"</span>:<span class="string">"ph"</span>,<span class="attr">"swv"</span>:<span class="string">"phia_1.0.8.4"</span>,<span class="attr">"utime"</span>:<span class="string">"1552176748"</span>,<span class="attr">"host"</span>:<span class="string">"tai-as-103b"</span>,<span class="attr">"s_biz"</span>:<span class="string">"weshare"</span>,<span class="attr">"time"</span>:<span class="string">"2019-03-10T08:12:28+08:00"</span>&#125;</span><br><span class="line">&#123;<span class="attr">"mid"</span>:<span class="string">"ACQ01"</span>,<span class="attr">"path"</span>:<span class="string">"/index.html"</span>,<span class="attr">"eleId"</span>:<span class="string">"jk_03"</span>,<span class="attr">"pageId"</span>:<span class="string">"jk_03"</span>,<span class="attr">"btnId"</span>:<span class="string">""</span>,<span class="attr">"referId"</span>:<span class="string">"jk_01"</span>,<span class="attr">"tokenId"</span>:<span class="string">"8b71c143-9fd3-4077-afda-f86135269f06"</span>,<span class="attr">"appid"</span>:<span class="string">"jkwx"</span>,<span class="attr">"swv"</span>:<span class="string">"jkwx"</span>,<span class="attr">"version"</span>:<span class="string">"1.0"</span>,<span class="attr">"district"</span>:<span class="string">"cn"</span>,<span class="attr">"ctime"</span>:<span class="number">1552176748132</span>,<span class="attr">"zuid"</span>:<span class="string">"884226f76cb5f3fbab4d8d6de2c9b9dc|123456789002"</span>,<span class="attr">"sessionId"</span>:<span class="string">"363abfb2-7db1-4236-bfb4-4f460e9e380b"</span>,<span class="attr">"referrer"</span>:<span class="string">"websocket.html"</span>,<span class="attr">"ugid"</span>:<span class="string">"e039fafb-8369-4e3a-abf5-58669b8b1379"</span>,<span class="attr">"ch_biz"</span>:<span class="string">"jk"</span>,<span class="attr">"bizType"</span>:<span class="number">0</span>,<span class="attr">"ch_sub"</span>:<span class="string">"1"</span>,<span class="attr">"utime"</span>:<span class="string">"1552176748"</span>,<span class="attr">"s_biz"</span>:<span class="string">"weshare"</span>,<span class="attr">"time"</span>:<span class="string">"2019-03-10T08:12:28+08:00"</span>&#125;</span><br><span class="line">&#123;<span class="attr">"mid"</span>:<span class="string">"ACQ01"</span>,<span class="attr">"path"</span>:<span class="string">"/bill.html"</span>,<span class="attr">"eleId"</span>:<span class="string">"jk_007"</span>,<span class="attr">"pageId"</span>:<span class="string">"jk_007"</span>,<span class="attr">"btnId"</span>:<span class="string">""</span>,<span class="attr">"referId"</span>:<span class="string">"jk_007"</span>,<span class="attr">"tokenId"</span>:<span class="string">"8b096bb0-9221-4942-bdb3-52d84cb5c0d5"</span>,<span class="attr">"appid"</span>:<span class="string">"jkandroid"</span>,<span class="attr">"swv"</span>:<span class="string">"jkandroid"</span>,<span class="attr">"version"</span>:<span class="string">"1.0"</span>,<span class="attr">"district"</span>:<span class="string">"cn"</span>,<span class="attr">"ctime"</span>:<span class="number">1552176749335</span>,<span class="attr">"zuid"</span>:<span class="string">"9e4208c6c3c2665992518fd655c0b671|123456789002"</span>,<span class="attr">"sessionId"</span>:<span class="string">"4726286b-e62c-4bcf-8975-11b4a4d212fc"</span>,<span class="attr">"appver"</span>:<span class="string">"jk_2.6.1.0"</span>,<span class="attr">"referrer"</span>:<span class="string">"/index.html"</span>,<span class="attr">"ugid"</span>:<span class="string">"BC1BFC57-A7ED-45D0-92F1-0D9A5CEAC75E"</span>,<span class="attr">"ch_biz"</span>:<span class="string">"jk"</span>,<span class="attr">"bizType"</span>:<span class="number">0</span>,<span class="attr">"ch"</span>:<span class="string">"jku0xiaomi"</span>,<span class="attr">"ch_sub"</span>:<span class="string">"0"</span>,<span class="attr">"utime"</span>:<span class="string">"1552176748"</span>,<span class="attr">"s_biz"</span>:<span class="string">"weshare"</span>,<span class="attr">"time"</span>:<span class="string">"2019-03-10T08:12:28+08:00"</span>&#125;</span><br></pre></td></tr></table></figure>
+<p>建表语句</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">test</span><span class="number">.1207</span>_test (</span><br><span class="line">req <span class="keyword">string</span></span><br><span class="line">) <span class="keyword">stored</span> <span class="keyword">as</span> textfile;</span><br></pre></td></tr></table></figure>
+<p>加载数据</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">load</span> <span class="keyword">data</span> <span class="keyword">local</span> inpath <span class="string">'/root/hadoop/data/1207_test.json'</span> <span class="keyword">into</span> <span class="keyword">table</span> <span class="keyword">test</span><span class="number">.1207</span>_test;</span><br></pre></td></tr></table></figure>
+<h2 id="get-json-object"><a href="#get-json-object" class="headerlink" title="get_json_object"></a>get_json_object</h2><p>用来解析json字符串的一个字段</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> get_json_object(req, <span class="string">'$.ctime'</span>) <span class="keyword">from</span> <span class="keyword">test</span><span class="number">.1207</span>_test;</span><br></pre></td></tr></table></figure>
+<p><img src="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/2019/20191207202715.png" alt="get_json_object"></p>
+<h2 id="json-tuple"><a href="#json-tuple" class="headerlink" title="json_tuple"></a>json_tuple</h2><p>用来解析json字符串中的多个字段</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> json_tuple(req, <span class="string">'ctime'</span>, <span class="string">'utime'</span>, <span class="string">'time'</span>) <span class="keyword">from</span> <span class="keyword">test</span><span class="number">.1207</span>_test;</span><br></pre></td></tr></table></figure>
+<p><img src="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/2019/20191207202841.png" alt="json_tuple"></p>
+<h1 id="json数组"><a href="#json数组" class="headerlink" title="json数组"></a>json数组</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> ss.col</span><br><span class="line"><span class="keyword">from</span> (</span><br><span class="line">  <span class="keyword">select</span> <span class="keyword">split</span>(</span><br><span class="line">    regexp_replace(</span><br><span class="line">      regexp_extract(<span class="string">'[&#123;"bssid":"6C:59:40:21:05:C4","ssid":"MERCURY_05C4"&#125;,&#123;"bssid":"AC:9C:E4:04:EE:52","appid":"10003","ssid":"and-Business"&#125;]'</span>,<span class="string">'^\\[(.+)\\]$'</span>,<span class="number">1</span>),</span><br><span class="line">    <span class="string">'\\&#125;\\,\\&#123;'</span>, </span><br><span class="line">    <span class="string">'\\&#125;\\|\\|\\&#123;'</span>),</span><br><span class="line">  <span class="string">'\\|\\|'</span>) <span class="keyword">as</span> <span class="keyword">str</span></span><br><span class="line">) tmp1</span><br><span class="line">lateral <span class="keyword">view</span> explode(tmp1.str) ss <span class="keyword">as</span> <span class="keyword">col</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="https://spikehuang-blog-image-test.oss-cn-beijing.aliyuncs.com/2019/20191207203308.png" alt="解析结果"></p>
 
       
     </div>
@@ -384,8 +372,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/02/Hive使用技巧/" rel="next" title="Hive使用技巧">
-                <i class="fa fa-chevron-left"></i> Hive使用技巧
+              <a href="/2019/12/06/awk/" rel="next" title="awk">
+                <i class="fa fa-chevron-left"></i> awk
               </a>
             
           </div>
@@ -393,10 +381,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/11/19/Numpy学习笔记/" rel="prev" title="Numpy学习笔记">
-                Numpy学习笔记 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -533,7 +517,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#需求"><span class="nav-number">1.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#准备Hive表"><span class="nav-number">2.</span> <span class="nav-text">准备Hive表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#准备初始数据"><span class="nav-number">3.</span> <span class="nav-text">准备初始数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据幂等方案"><span class="nav-number">4.</span> <span class="nav-text">数据幂等方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用分区"><span class="nav-number">4.1.</span> <span class="nav-text">使用分区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用临时表"><span class="nav-number">4.2.</span> <span class="nav-text">使用临时表</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#json对象"><span class="nav-number">1.</span> <span class="nav-text">json对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#get-json-object"><span class="nav-number">1.1.</span> <span class="nav-text">get_json_object</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#json-tuple"><span class="nav-number">1.2.</span> <span class="nav-text">json_tuple</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#json数组"><span class="nav-number">2.</span> <span class="nav-text">json数组</span></a></li></ol></div>
             
 
           </div>
