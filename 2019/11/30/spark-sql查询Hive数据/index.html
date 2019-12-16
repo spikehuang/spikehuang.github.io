@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="Spike&#39;s Blog">
 <meta property="og:description" content="前提：安装好Hadoop、Hive环境。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-11-30T15:17:40.781Z">
+<meta property="og:updated_time" content="2019-12-14T03:30:21.818Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spark-sql查询Hive数据">
 <meta name="twitter:description" content="前提：安装好Hadoop、Hive环境。">
@@ -348,6 +348,16 @@
 <p><code>cd $SPARK_HOME/conf</code></p>
 <p><code>cp log4j.properties.template log4j.properties</code></p>
 <p>将<code>log4j.rootCategory=INFO, console</code>的INFO等级改为WARN</p>
+<h1 id="通过Spark访问HDFS"><a href="#通过Spark访问HDFS" class="headerlink" title="通过Spark访问HDFS"></a>通过Spark访问HDFS</h1><p>以上配置已经能保证spark-sql访问hive数据，如果想通过spark访问HDFS，需要进行如下操作，否则会报错<code>java.net.UnknownHostException</code></p>
+<ol>
+<li><p>复制Hadoop目录下etc/hadoop中的hdfs-site.xml和core-site.xml文件到spark的conf/目录下</p>
+</li>
+<li><p>cd $SPARK_HOME &amp;&amp; mv spark-default.conf.template spark-default.xml</p>
+</li>
+<li><p>在spark-default.xml文件中添加如下配置(具体路径以自己实际路径为准)</p>
+<p>spark.files file:///root/hadoop/apps/spark-2.1.3-bin-hadoop2.7/conf/hdfs-site.xml,file:///root/hadoop/apps/spark-2.1.3-bin-hadoop2.7/conf/core-site.xml</p>
+</li>
+</ol>
 
       
     </div>
@@ -529,7 +539,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装Spark"><span class="nav-number">1.</span> <span class="nav-text">安装Spark</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置文件"><span class="nav-number">2.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启动Hive-MetaStore"><span class="nav-number">3.</span> <span class="nav-text">启动Hive MetaStore</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进入Spark-SQL-CLI"><span class="nav-number">4.</span> <span class="nav-text">进入Spark SQL CLI</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他"><span class="nav-number">5.</span> <span class="nav-text">其他</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装Spark"><span class="nav-number">1.</span> <span class="nav-text">安装Spark</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置文件"><span class="nav-number">2.</span> <span class="nav-text">配置文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启动Hive-MetaStore"><span class="nav-number">3.</span> <span class="nav-text">启动Hive MetaStore</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进入Spark-SQL-CLI"><span class="nav-number">4.</span> <span class="nav-text">进入Spark SQL CLI</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他"><span class="nav-number">5.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#通过Spark访问HDFS"><span class="nav-number">6.</span> <span class="nav-text">通过Spark访问HDFS</span></a></li></ol></div>
             
 
           </div>
